@@ -1,12 +1,10 @@
-const express = require("express");
-const cors = require("cors"); // 引入 CORS
+const app = require("./app");
 const connectMongo = require("./config/mongoose");
-const articleRoutes = require("./routes/articleRoute");
 
-const app = express();
-app.use(cors()); // 啟用 CORS
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use("/article", articleRoutes);
+const PORT = process.env.PORT || 5007;
 
-module.exports = app;
+connectMongo().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 伺服器運行在 http://localhost:${PORT}`);
+  });
+});

@@ -1,13 +1,14 @@
-// mongoose.js
 const mongoose = require("mongoose");
 
-const connectDB = async () => {
+const connectMongo = async (
+  mongoUri = "mongodb://127.0.0.1:27017/postProject"
+) => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/post-project");
-    console.log("✅ 已連結到 MongoDB");
+    await mongoose.connect(mongoUri);
+    console.log(`✅ 已連結到 MongoDB: ${mongoUri}`);
   } catch (e) {
     console.error("❌ 連接 MongoDB 失敗:", e);
   }
 };
 
-module.exports = connectDB;
+module.exports = connectMongo;
