@@ -46,16 +46,15 @@ const CounterSchema = new mongoose.Schema({
   seq: { type: Number, default: 1 },
 });
 const Counter = mongoose.model("Counter", CounterSchema);
-//初始化 Counter
+
 const initCounter = async () => {
-  const counter = await Counter.findByIdAndUpdate(
-    { _id: "articleId" },
-    { $setOnInsert: { seq: 0 } },
-    { upsert: true, new: true }
-  );
-  console.log("Counter Initialized:", counter);
+  const counterExists = await Counter.findById("articleId");
+  if (!counterExists) {
+    const counter = await Counter.create({ _id: "articleId", seq: 0 });
+    console.log("Counter Initialized:", counter);
+  } 
 };
-initCounter(); // 在啟動時初始化 Counter 為0
+initCounter();
 
 // 自動遞增 `articleId` 和處理 `category` 和 `tags`
 ArticleSchema.pre("save", async function (next) {

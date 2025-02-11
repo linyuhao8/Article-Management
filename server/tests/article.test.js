@@ -11,10 +11,7 @@ beforeAll(async () => {
   const mongoUri = mongoServer.getUri();
 
   // 連接到內存中的 MongoDB
-  await mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(mongoUri);
   console.log("MongoDB connected to in-memory server");
 });
 
@@ -64,7 +61,7 @@ describe("Article Routes", () => {
       expect(createdArticle.tags).toHaveLength(2); // 假設你傳遞了 1 個標籤
       console.log(createdArticle);
     });
-    it("測試沒有填寫", async () => {
+    it("沒有填寫必填，回傳400", async () => {
       const newPost = {
         //articleId不用填自行生成
         slug: "",
@@ -78,6 +75,21 @@ describe("Article Routes", () => {
       const res = await request(app).post("/article/add").send(newPost);
 
       expect(res.status).toBe(400);
+    });
+    it("如果填寫的unique欄位已存在，應該回傳 409 錯誤", async () => {
+      const res = await request(app)
+        .post("/article/add")
+        .send({
+          title: "新文章",
+          content: "內容",
+          category: "測試",
+          tags: ["測試"],
+          slug: "sdsd",
+        });
+
+      expect(res.status).toBe(409);
+      expect(res.body.error).toBe("Duplicate key error");
+      expect(res.body.message).toMatch(/slug/i);
     });
   });
 

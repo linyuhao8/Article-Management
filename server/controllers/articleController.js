@@ -51,11 +51,19 @@ exports.createArticle = async (req, res) => {
     await newArticle.save();
 
     res.status(201).json(newArticle); // 返回新創建的文章資料
-  } catch (e) {
-    // 捕捉錯誤並返回詳細訊息
-    console.error(e);
-    res
-      .status(500)
-      .json({ error: "Internal server error", message: e.message });
+  } catch (err) {
+    if (err.code === 11000) {
+      // MongoDB Duplicate Key 錯誤
+      res.status(409).json({
+        error: "Duplicate key error",
+        message: `Article with ${JSON.stringify(err.keyValue)} already exists.`,
+      });
+    } else {
+      // 捕捉錯誤並返回詳細訊息
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "Internal server error", message: err.message });
+    }
   }
 };
