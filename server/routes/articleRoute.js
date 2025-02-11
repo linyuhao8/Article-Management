@@ -13,29 +13,48 @@ router.get(
   /* #swagger.ignore = true */
   articleController.test
 );
-//新增文章 Post /article/add
+
+//新增文章 POST /article/add
 router.post(
   "/add",
-  /* #swagger.tags = ['Add Post'] 
-  #swagger.description = '新增文章' */
-  /* #swagger.responses[200] = { 
-      schema: { {
-  "title": "測試文章1",
-  "content": "su3sadas",
-  "slug": "test",
-  "category": "67aab8036617bc5e0bd7c06c",
-  "status": "draft",
-  "tags": [
-    "67aab8036617bc5e0bd7c06f"
-  ],
-  "_id": "67aab8036617bc5e0bd7c071",
-  "createdAt": "2025-02-11T02:37:55.850Z",
-  "updatedAt": "2025-02-11T02:37:55.850Z",
-  "articleId": 2,
-  "__v": 0
-} },
-      description: "文章新增成功." } */
-  articleController.createArticle
+  /* #swagger.tags = ['Article'] 
+    #swagger.description = '新增文章，使用json格式的資料，傳入資料庫，並儲存在資料庫' */
+
+  /*	#swagger.parameters['obj'] = {
+    in: 'body',
+    description: '文章資訊.',
+    required: true,
+    schema: {title: "測試文章",
+          content: { 
+            type: 'object', 
+            example: { 
+                type: 'doc', 
+                content: [{ 
+                    type: 'paragraph', 
+                    content: [{ 
+                        type: 'text', 
+                        text: '這是文章的內容範例。' 
+                    }] 
+                }] 
+            } 
+        },
+          description: "",
+          category: "Tech",
+          tags: ["tag1","tag2"],
+          status: "draft",
+          slug: "test1", }
+} */
+
+  articleController.create
+);
+
+//查詢文章 GET
+router.get(
+  "/:id",
+  /* #swagger.tags = ['Article'] 
+    #swagger.description = '查詢單篇文章，使用 articleId 查詢，第一篇文章為 1，只會有數字' */
+
+  articleController.findSingle
 );
 
 module.exports = router;

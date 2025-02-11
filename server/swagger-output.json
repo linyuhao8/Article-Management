@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
-    "description": "文章系統",
+    "title": "Post Management Api",
+    "description": "CRUD文章",
     "version": "1.0.0"
   },
   "host": "localhost:5007",
@@ -11,46 +11,96 @@
     "http"
   ],
   "paths": {
-    "/article/test": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/article/add": {
       "post": {
         "tags": [
-          "Add Post"
+          "Article"
         ],
-        "description": "新增文章",
+        "description": "新增文章，使用json格式的資料，傳入資料庫，並儲存在資料庫",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "文章資訊.",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "測試文章"
                 },
                 "content": {
-                  "example": "any"
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "example": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "doc"
+                        },
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "paragraph"
+                              },
+                              "content": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "text"
+                                    },
+                                    "text": {
+                                      "type": "string",
+                                      "example": "這是文章的內容範例。"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "description": {
+                  "type": "string",
+                  "example": ""
                 },
                 "category": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Tech"
                 },
                 "tags": {
-                  "example": "any"
+                  "type": "array",
+                  "example": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "status": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "draft"
                 },
                 "slug": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "test1"
                 }
               }
             }
@@ -62,6 +112,36 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/article/{id}": {
+      "get": {
+        "tags": [
+          "Article"
+        ],
+        "description": "查詢單篇文章，使用 articleId 查詢，第一篇文章為 1，只會有數字",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

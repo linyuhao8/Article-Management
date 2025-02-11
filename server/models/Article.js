@@ -13,6 +13,10 @@ const ArticleSchema = new mongoose.Schema(
       unique: true,
       slug_padding_size: 6,
     }, // 自動從 title 產生 slug
+    description: {
+      type: String,
+      default: "這是一篇文章的描述。",
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -52,7 +56,7 @@ const initCounter = async () => {
   if (!counterExists) {
     const counter = await Counter.create({ _id: "articleId", seq: 0 });
     console.log("Counter Initialized:", counter);
-  } 
+  }
 };
 initCounter();
 

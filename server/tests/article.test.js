@@ -39,6 +39,7 @@ describe("Article Routes", () => {
         category: "測試類別",
         tags: ["測試標籤", "測試2"],
         status: "draft",
+        description: "",
       };
 
       const res = await request(app)
@@ -52,6 +53,7 @@ describe("Article Routes", () => {
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("articleId");
       expect(res.body).toHaveProperty("slug");
+      expect(res.body).toHaveProperty("description");
 
       // 查詢資料庫來確保資料已經被創建
       const createdArticle = await Article.findOne({ title: "測試文章" });
@@ -93,5 +95,53 @@ describe("Article Routes", () => {
     });
   });
 
+  describe("GET /article/:id", () => {
+    let mockArticle;
+
+    // 在每次測試之前創建一個模擬的文章
+    beforeEach(() => {
+      mockArticle = {
+        title: "測試文章",
+        content: "文章內容",
+        slug: "test-article",
+        category: "Tech",
+        status: "draft",
+        tags: ["tag1", "tag2"],
+      };
+    });
+
+    // 測試成功情況
+    it("使用articleId查詢單篇文章", async () => {
+      // 模擬 mongoose 查找資料
+      jest.spyOn(Article, "findOne").mockResolvedValue(mockArticle);
+
+      const response = await request(app).get("/article/1");
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(mockArticle);
+    });
+
+    // 測試找不到文章情況
+    it("如果文章未找到，應該返回 404 錯誤", async () => {
+      jest.spyOn(Article, "findOne").mockResolvedValue(null);
+
+      const response = await request(app).get("/article/1");
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("Article not found");
+    });
+
+    // 測試錯誤處理情況
+    it("如果發生錯誤，應該返回 500 錯誤", async () => {
+      jest
+        .spyOn(Article, "findOne")
+        .mockRejectedValue(new Error("Database error"));
+
+      const response = await request(app).get("/article/1");
+
+      expect(response.status).toBe(500);
+      expect(response.body.message).toBe("Server error");
+    });
+  });
   // 可以添加更多的路由測試，例如 GET, PUT, DELETE 等
 });

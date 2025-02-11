@@ -6,9 +6,10 @@ exports.test = async (req, res) => {
 };
 
 // 新增文章方法
-exports.createArticle = async (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const { title, content, category, tags, status, slug } = req.body;
+    const { title, content, category, tags, status, slug, description } =
+      req.body;
 
     // 檢查必填欄位
     if (!title || !content || !category) {
@@ -47,6 +48,7 @@ exports.createArticle = async (req, res) => {
       tags: findTags,
       status,
       slug,
+      description,
     });
     await newArticle.save();
 
@@ -67,3 +69,31 @@ exports.createArticle = async (req, res) => {
     }
   }
 };
+
+//查詢單篇文章
+exports.findSingle = async (req, res) => {
+  try {
+    const articleId = Number(req.params.id);
+    const article = await Article.findOne({ articleId: articleId });
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+    res.status(200).json(article);
+  } catch (err) {
+    console.error(err); // 使用 console.error 輸出錯誤
+    res.status(500).json({ message: "Server error" }); // 返回 500 錯誤消息
+  }
+};
+
+//刪除單篇文章
+//查詢多篇文章
+// GET /articles：查詢所有文章。
+// GET /articles/:id：查詢單篇文章。
+// POST /articles：創建新文章。
+// PATCH /articles/:id：更新單篇文章。
+// DELETE /articles/:id：刪除單篇文章。
+// GET /articles/count：查詢文章總數。
+// GET /articles/tags：查詢指定標籤的文章。
+// PATCH /articles/bulk-update：批量更新文章。
+// GET /articles/stats：文章統計資訊。
+// PATCH /articles/:id/status：更新文章狀態。
