@@ -12,6 +12,6 @@ const swaggerFile = require("./swagger-output.json"); // 引入自動生成的 J
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 //路由 localhost:port/aritcle
-app.use("/article", articleRoutes);
+app.use("/articles", articleRoutes);
 
 module.exports = app;

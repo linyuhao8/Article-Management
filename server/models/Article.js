@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const slug = require("mongoose-slug-generator");
 
 // 定義 Article Schema
-const ArticleSchema = new mongoose.Schema(
+const ArticleSchema = new Schema(
   {
-    articleId: { type: Number, unique: true }, // 會自行填寫，第一篇為ID:1
+    articleId: { type: Number, unique: true },
     title: { type: String, required: true },
-    content: { type: Object, required: true }, // Tiptap JSON 內容
+    content: { type: Schema.Types.Mixed, required: true },
     slug: {
       type: String,
       slug: "title",
@@ -51,32 +52,36 @@ const CounterSchema = new mongoose.Schema({
 });
 const Counter = mongoose.model("Counter", CounterSchema);
 
-const initCounter = async () => {
-  const counterExists = await Counter.findById("articleId");
-  if (!counterExists) {
-    const counter = await Counter.create({ _id: "articleId", seq: 0 });
-    console.log("Counter Initialized:", counter);
-  }
-};
-initCounter();
-
-// 自動遞增 `articleId` 和處理 `category` 和 `tags`
 ArticleSchema.pre("save", async function (next) {
-  // 自動遞增 articleId
   if (!this.articleId) {
-    const counter = await Counter.findByIdAndUpdate(
-      { _id: "articleId" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.articleId = counter.seq;
+    try {
+      const counter = await Counter.findOneAndUpdate(
+        { _id: "articleId" },
+        { $inc: { seq: 1 } }, // 每次遞增 1
+        {
+          new: true,
+          upsert: true, // 自動創建不存在的文檔
+          projection: { seq: 1 }, // 僅返回 seq 字段
+        }
+      );
+
+      this.articleId = counter.seq;
+      console.log(
+        "儲存pre save 步驟 已經有數字了，Generated articleId is:",
+        this.articleId
+      );
+    } catch (err) {
+      console.error("Error generating articleId:", err);
+      return next(err);
+    }
   }
-  //如果沒有slug就根據title，有就保留用戶輸入
+  // 根據 title 生成 slug
   if (!this.slug || this.slug.trim() === "") {
     this.slug = this.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+      .replace(/(^-|-$)/g, "") // 去除前後的破折號
+      .replace(/--+/g, "-"); // 去除多重連字符
   }
   next();
 });
@@ -85,4 +90,4 @@ ArticleSchema.pre("save", async function (next) {
 const Article = mongoose.model("Article", ArticleSchema);
 
 // 匯出所有模型
-module.exports = { Article, Category, Tag };
+module.exports = { Article, Category, Tag, Counter };

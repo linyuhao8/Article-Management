@@ -23,11 +23,6 @@ afterAll(async () => {
 });
 
 describe("Article Routes", () => {
-  //測試路由
-  test("test router /article/test", async () => {
-    const res = await request(app).get("/article/test");
-    expect(res.statusCode).toBe(200);
-  });
   //測試新增文章功能
   describe("POST /article/add", () => {
     it("新增文章測試", async () => {

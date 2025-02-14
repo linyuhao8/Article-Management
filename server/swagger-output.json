@@ -11,11 +11,12 @@
     "http"
   ],
   "paths": {
-    "/article/add": {
+    "/articles/add": {
       "post": {
         "tags": [
-          "Article"
+          "Article management"
         ],
+        "summary": "add article",
         "description": "新增文章，使用json格式的資料，傳入資料庫，並儲存在資料庫",
         "parameters": [
           {
@@ -35,38 +36,29 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "example": "object"
+                      "example": "doc"
                     },
-                    "example": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "doc"
-                        },
-                        "content": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "example": "paragraph"
-                              },
-                              "content": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "string",
-                                      "example": "text"
-                                    },
-                                    "text": {
-                                      "type": "string",
-                                      "example": "這是文章的內容範例。"
-                                    }
-                                  }
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "paragraph"
+                          },
+                          "content": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "text"
+                                },
+                                "text": {
+                                  "type": "string",
+                                  "example": "證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多。"
                                 }
                               }
                             }
@@ -122,11 +114,228 @@
         }
       }
     },
-    "/article/{id}": {
+    "/articles/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Article management"
+        ],
+        "summary": "delete single article",
+        "description": "刪除的單篇文章，使用articleID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/articles/count/{name}": {
       "get": {
         "tags": [
-          "Article"
+          "Count items"
         ],
+        "summary": "count articles tags categories",
+        "description": "取得數量可填入articles、tags、categories",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/deleteAll": {
+      "delete": {
+        "tags": [
+          "Article management"
+        ],
+        "summary": "delete all article",
+        "description": "刪除所有文章跟articleId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/categories": {
+      "get": {
+        "tags": [
+          "Article categories"
+        ],
+        "summary": "get all categories",
+        "description": "取得所有category，可以加上數量限制",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/tags": {
+      "get": {
+        "tags": [
+          "Article tags"
+        ],
+        "summary": "回傳所有tags",
+        "description": "取得所有tags，可以加上數量限制",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/tags/{tags}": {
+      "get": {
+        "tags": [
+          "Article tags"
+        ],
+        "summary": "回傳含有tags的articles",
+        "description": "搜尋含有tags的article",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/categories/{categories}": {
+      "get": {
+        "tags": [
+          "Article categories"
+        ],
+        "summary": "回傳含有tags的articles",
+        "description": "搜尋含有tags的article",
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/articles/pages/{page}": {
+      "get": {
+        "tags": [
+          "Article display"
+        ],
+        "summary": "article list",
+        "description": "取得文章列表 // http://localhost:5006/article?page=2",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/id/{id}": {
+      "get": {
+        "tags": [
+          "Article display"
+        ],
+        "summary": "find single article",
         "description": "查詢單篇文章，使用 articleId 查詢，第一篇文章為 1，只會有數字",
         "parameters": [
           {
@@ -142,6 +351,105 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/edit/{id}": {
+      "put": {
+        "tags": [
+          "Article management"
+        ],
+        "summary": "edit article data",
+        "description": "修改文章",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "修改文章.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "已修改文章"
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "doc"
+                    },
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "paragraph"
+                          },
+                          "content": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "text"
+                                },
+                                "text": {
+                                  "type": "string",
+                                  "example": "證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多。"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "description": {
+                  "type": "string",
+                  "example": "修改過了"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Life"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "draft"
+                },
+                "slug": {
+                  "type": "string",
+                  "example": "change1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
           },
           "500": {
             "description": "Internal Server Error"
