@@ -14,8 +14,6 @@ exports.create = async (req, res) => {
         .json({ error: "Title, content, and category are required" });
     }
 
-    //檢查content是否為json
-
     //檢查有沒有一樣的slug，在counter增加之前
     if (slug) {
       let findSlug = await Article.findOne({ slug });
