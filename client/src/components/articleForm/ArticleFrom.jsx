@@ -36,13 +36,18 @@ const AddPost = () => {
       </div>
       <div className="container">
         {/* Title Input */}
-        <input
-          type="text"
-          className="title-input"
-          placeholder="Title..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <div className="flex flex-col items-end">
+          <span className="border border-gray-300 rounded-xl px-3">
+            標題字數：{title.length}
+          </span>
+          <input
+            type="text"
+            className="title-input"
+            placeholder="Title..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
 
         {/* Cover Image */}
         <div className="cover-container">
