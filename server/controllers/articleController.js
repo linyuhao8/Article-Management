@@ -4,8 +4,16 @@ const { Article, Tag, Category, Counter } = require("../models/Article");
 exports.create = async (req, res) => {
   try {
     console.log("use create");
-    const { title, content, category, tags, status, slug, description } =
-      req.body;
+    const {
+      title,
+      content,
+      category,
+      tags,
+      status,
+      slug,
+      description,
+      contentText,
+    } = req.body;
 
     // 必填欄位檢查
     if (!title || !content || !category) {
@@ -45,6 +53,7 @@ exports.create = async (req, res) => {
 
     // 創建文章
     const newArticle = new Article({
+      contentText,
       title,
       content,
       category: findCategory._id,
@@ -306,7 +315,8 @@ exports.updateOne = async (req, res) => {
   try {
     console.log("use updateOne");
     const { id } = req.params; // 取得文章 ID
-    const { title, content, category, slug, description, status } = req.body; // 從請求取得要更新的資料
+    const { title, content, category, slug, description, status, contentText } =
+      req.body; // 從請求取得要更新的資料
 
     // 檢查是否有別篇文章用同一個slug
     if (slug) {
@@ -328,6 +338,7 @@ exports.updateOne = async (req, res) => {
       { articleId: id }, // 查詢條件
       {
         $set: {
+          ...(contentText && { content }),
           ...(title && { title }), // 更新標題
           ...(content && { "content.example": content }), // 更新 Tiptap JSON 內容
           category: findCategory._id,

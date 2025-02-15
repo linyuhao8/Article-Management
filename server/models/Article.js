@@ -7,7 +7,10 @@ const ArticleSchema = new Schema(
   {
     articleId: { type: Number, unique: true },
     title: { type: String, required: true },
+    //json檔案
     content: { type: Schema.Types.Mixed, required: true },
+    //純文字
+    contentText: { type: String, required: true },
     slug: {
       type: String,
       slug: "title",

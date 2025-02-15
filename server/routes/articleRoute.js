@@ -15,6 +15,7 @@ router.post(
     description: '文章資訊.',
     required: true,
     schema: {title: "測試文章",
+    "contentText":"證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多",
           content: {
   "type": "doc",
   "content": [
@@ -36,6 +37,7 @@ router.post(
         }
       ]
     },
+    
     {
       "type": "heading",
       "attrs": {
@@ -201,6 +203,7 @@ router.put(
     description: '修改文章.',
     required: true,
     schema: {title: "已修改文章",
+    "contentText":"證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多",
           content: {
   "type": "doc",
   "content": [
@@ -222,6 +225,7 @@ router.put(
         }
       ]
     },
+    "contentText":"證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多",
     {
       "type": "heading",
       "attrs": {
