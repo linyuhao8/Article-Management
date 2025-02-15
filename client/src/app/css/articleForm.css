@@ -1,0 +1,182 @@
+/* Tailwind Imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root Variables */
+:root {
+  --main: #005fcc;
+}
+
+body {
+  @apply box-border w-full transition-colors duration-500 ease-in-out text-gray-800 bg-[#fff] dark:bg-[#ffffff] dark:text-white;
+}
+
+h1,
+h2 {
+  @apply text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white;
+}
+/* Container and Form Styles */
+.container {
+  @apply mt-5 flex flex-col gap-5 max-w-2xl mx-auto p-6 bg-white shadow-md rounded-2xl;
+}
+
+.cover-container {
+  @apply mb-4 relative;
+}
+
+.cover-image {
+  @apply w-full  object-cover rounded-lg;
+}
+
+.upload-label {
+  @apply flex items-center justify-center w-full h-60 border-2 border-dashed 
+           border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-gray-500;
+}
+
+.title-input {
+  @apply w-full text-3xl font-bold outline-none border-b-2 focus:border-b-2 mb-4 p-2;
+}
+
+.tags-input {
+  @apply w-full mt-4 p-2 border rounded-lg  border-b-2 focus:border-2 focus:border-solid focus:border-red-300;
+}
+
+.submit-button {
+  @apply mt-6 w-full bg-[var(--main)] text-white py-2 rounded-lg hover:bg-gray-900 transition;
+}
+
+/* Editor Core Styles */
+.Editor {
+  @apply overflow-x-hidden dark:bg-[#111828] dark:text-white;
+}
+
+/* Button Group Styles */
+.button-group {
+  @apply bg-white flex flex-auto flex-wrap justify-start items-center p-2 
+         divide-x divide-solid divide-zinc-400 text-gray-800 
+         border-x border-t rounded-t-lg;
+}
+
+.button-group button {
+  @apply px-2;
+}
+
+.button-group button.is-active {
+  @apply text-[var(--main)];
+}
+
+.heading-btn {
+  @apply flex flex-nowrap justify-center items-center text-xs;
+}
+
+/* Tiptap Editor Styles */
+.tiptap {
+  @apply border-x border-y rounded-b-lg focus:outline-[var(--main)];
+}
+
+.tiptap a {
+  @apply text-amber-500 decoration-amber-500 underline underline-offset-2 cursor-pointer;
+}
+
+.ProseMirror {
+  @apply min-h-20 pt-4 px-4;
+}
+
+/* List Styles */
+ul,
+ol {
+  @apply px-4 my-5 mr-4;
+}
+
+ul {
+  @apply max-w-md space-y-1 text-gray-500 list-disc list-outside dark:text-gray-400;
+}
+
+ol {
+  @apply space-y-1 text-gray-500 list-decimal list-outside dark:text-gray-400;
+}
+
+ul li p,
+ol li p {
+  @apply my-1;
+}
+
+/* Image Styles */
+.tiptap img {
+  display: block;
+  height: auto;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+.tiptap img.ProseMirror-selectednode {
+  outline: 2px solid var(--main);
+}
+
+/* Heading Styles */
+.tiptap h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply leading-tight mt-10 text-pretty;
+}
+
+.tiptap h1,
+h2 {
+  @apply mt-2 mb-1;
+}
+
+.tiptap h1 {
+  @apply text-[1.8rem] font-extrabold;
+}
+
+.tiptap h2 {
+  @apply text-[1.5rem] font-extrabold;
+}
+
+.tiptap h3 {
+  @apply text-[1.1rem];
+}
+
+.tiptap h4,
+h5,
+h6 {
+  @apply text-[1rem];
+}
+
+/* Code and Pre Styles */
+code {
+  @apply bg-purple-200 rounded-md text-black text-[0.85rem] px-1 py-0.5;
+}
+
+pre {
+  @apply bg-black text-white font-mono rounded-lg my-6 p-4;
+}
+
+pre code {
+  @apply bg-transparent text-inherit text-[0.8rem] p-0;
+}
+
+/* Blockquote Styles */
+blockquote {
+  @apply border-l-4 border-[var(--main)] pl-4 my-6;
+}
+
+/* Horizontal Rule */
+hr {
+  @apply border-t border-[var(--main)] my-8;
+}
+
+/* Output Container Styles */
+.output {
+  @apply mt-5 p-4 w-[50vw] bg-white dark:bg-gray-800 rounded-md shadow-md;
+}
+
+.output pre {
+  @apply text-wrap text-xs;
+  overflow-x: auto;
+  max-width: 100%;
+}
