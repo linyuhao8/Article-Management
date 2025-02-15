@@ -172,7 +172,7 @@ hr {
 
 /* Output Container Styles */
 .output {
-  @apply mt-5 p-4 w-[50vw] bg-white dark:bg-gray-800 rounded-md shadow-md;
+  @apply mt-5 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md;
 }
 
 .output pre {

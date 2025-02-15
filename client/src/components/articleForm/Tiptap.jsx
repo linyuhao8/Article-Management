@@ -277,7 +277,7 @@ const MenuBar = ({ editor, setEditorContent }) => {
   );
 };
 
-export default ({ setEditorContent }) => {
+export default ({ initContentJson, setEditorContent, setContentText }) => {
   const extensions1 = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
@@ -365,46 +365,16 @@ export default ({ setEditorContent }) => {
     Image,
   ];
 
-  const content1 = `
-  <h2>
-    Hi there,
-  </h2>
-  <p>
-    this is a <em>basic</em> example of <strong><a href="https://Tiptap.com">Tiptap</a></strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-  </p>
-  <ul>
-    <li>
-      That’s a bullet list with one …
-    </li>
-    <li>
-      … or two list items.
-    </li>
-  </ul>
-  <img src="https://placehold.co/800x400" />
-  <p>
-    Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-  </p>
-  <pre><code class="language-css">body {
-    display: none;
-  }</code></pre>
-  <p>
-    I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-  </p>
-  <blockquote>
-    Wow, that’s amazing. Good work, boy! 👏
-    <br />
-    — Mom
-  </blockquote>
-  `;
-
   const editor = useEditor({
     extensions: extensions1,
-    content: content1,
+    content: initContentJson,
     immediatelyRender: false,
     //內容變化就傳到 parent 組件
     onUpdate: ({ editor }) => {
       const jsonContent = editor.getJSON();
       setEditorContent(jsonContent); // 更新父層狀態
+      const textContent = editor.getText();
+      setContentText(textContent);
     },
   });
 

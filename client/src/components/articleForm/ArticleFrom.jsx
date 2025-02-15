@@ -1,20 +1,181 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/articleForm/Tiptap";
+import CheckEditorContent from "./CheckEditorContent";
 
 const AddPost = () => {
+  const initContentJson = {
+    type: "doc",
+    content: [
+      {
+        type: "heading",
+        attrs: {
+          level: 2,
+        },
+        content: [
+          {
+            type: "text",
+            text: "Hi there,",
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "this is a ",
+          },
+          {
+            type: "text",
+            marks: [
+              {
+                type: "italic",
+              },
+            ],
+            text: "basic",
+          },
+          {
+            type: "text",
+            text: " example of ",
+          },
+          {
+            type: "text",
+            marks: [
+              {
+                type: "link",
+                attrs: {
+                  href: "https://Tiptap.com",
+                  target: "_blank",
+                  rel: "noopener noreferrer nofollow",
+                  class: null,
+                },
+              },
+              {
+                type: "bold",
+              },
+            ],
+            text: "Tiptap",
+          },
+          {
+            type: "text",
+            text: ". Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:",
+          },
+        ],
+      },
+      {
+        type: "bulletList",
+        content: [
+          {
+            type: "listItem",
+            attrs: {
+              color: "",
+            },
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    text: "That’s a bullet list with one …",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            attrs: {
+              color: "",
+            },
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    text: "… or two list items.",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "image",
+        attrs: {
+          src: "https://placehold.co/800x400",
+          alt: null,
+          title: null,
+        },
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:",
+          },
+        ],
+      },
+      {
+        type: "codeBlock",
+        attrs: {
+          language: "css",
+        },
+        content: [
+          {
+            type: "text",
+            text: "body {\n    display: none;\n  }",
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.",
+          },
+        ],
+      },
+      {
+        type: "blockquote",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: "Wow, that’s amazing. Good work, boy! 👏 ",
+              },
+              {
+                type: "hardBreak",
+              },
+              {
+                type: "text",
+                text: "— Mom ",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState(["dsds", "ADSD"]);
-  const [editorContent, setEditorContent] = useState([]);
+  const [content, setContent] = useState(initContentJson);
+  const [contentText, setContentText] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("這是一篇文章的描述。");
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("Draft");
+  const [coverImage, setCoverImage] = useState(null);
 
   useEffect(() => {
-    console.log("editorContent");
-  }, [editorContent]);
-  const [coverImage, setCoverImage] = useState(null);
+    console.log("正在編輯");
+  }, [content]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -23,13 +184,37 @@ const AddPost = () => {
     }
   };
 
+  // 處理表單提交
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 建立文章物件
+    const articleData = {
+      contentText,
+      title,
+      content,
+      slug,
+      description,
+      category,
+      status,
+      tags,
+    };
+
+    // 呼叫父組件傳遞的 onSubmit 函數
+    // onSubmit(articleData);
+    console.log(articleData);
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="">新增文章</h1>
         <div className="flex nowrap gap-2 items-center">
           <p className="text-sky-600">{status}</p>
-          <button className="px-3 py-1 bg-[#005FCC] text-white rounded-md">
+          <button
+            className="px-3 py-1 bg-[#005FCC] text-white rounded-md"
+            onClick={handleSubmit}
+          >
             Save
           </button>
         </div>
@@ -68,8 +253,9 @@ const AddPost = () => {
         {/* Content Editor (Simplified) */}
 
         <Tiptap
-          editorContent={editorContent}
-          setEditorContent={setEditorContent}
+          initContentJson={initContentJson}
+          setEditorContent={setContent}
+          setContentText={setContentText}
         />
 
         {/* Slug */}
@@ -163,7 +349,9 @@ const AddPost = () => {
           />
         </div>
         {/* Submit Button */}
-        <button className="submit-button">Publish</button>
+        <button className="submit-button" onClick={handleSubmit}>
+          Publish
+        </button>
       </div>
     </div>
   );
