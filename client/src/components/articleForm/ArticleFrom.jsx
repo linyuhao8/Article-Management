@@ -229,7 +229,6 @@ Wow, that’s amazing. Good work, boy! 👏
 
   return (
     <div className="max-w-2xl mx-auto">
-      <Message message={message} messageStatus={messageStatus} />
       <div className="flex items-center justify-between">
         <h1 className="">新增文章</h1>
         <div className="flex nowrap gap-2 items-center">
@@ -242,6 +241,7 @@ Wow, that’s amazing. Good work, boy! 👏
           </button>
         </div>
       </div>
+      <Message message={message} messageStatus={messageStatus} />
       <div className="container">
         {/* Title Input */}
         <div className="flex flex-col items-end">

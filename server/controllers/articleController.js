@@ -132,7 +132,9 @@ exports.findSingle = async (req, res) => {
   try {
     console.log("use findSingle");
     const id = req.params.id;
-    let article = await Article.findOne({ articleId: id });
+    let article = await Article.findOne({ articleId: id })
+      .populate("category") // 只填充 category 的 name
+      .populate("tags");
     if (!article) {
       return res.status(404).json({ message: "找不到文章" });
     }
