@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/articleForm/Tiptap";
 import CheckEditorContent from "./CheckEditorContent";
+import Message from "@/components/articleForm/Message";
 
-const ArticleFrom = ({ onSubmit }) => {
+const ArticleFrom = ({ onSubmit, message, messageStatus }) => {
   const initContentJson = {
     type: "doc",
     content: [
@@ -228,6 +229,7 @@ Wow, that’s amazing. Good work, boy! 👏
 
   return (
     <div className="max-w-2xl mx-auto">
+      <Message message={message} messageStatus={messageStatus} />
       <div className="flex items-center justify-between">
         <h1 className="">新增文章</h1>
         <div className="flex nowrap gap-2 items-center">

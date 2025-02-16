@@ -19,14 +19,14 @@ exports.create = async (req, res) => {
     if (!title || !content || !category) {
       return res
         .status(400)
-        .json({ error: "Title, content, and category are required" });
+        .json({ message: "Title, content, and category are required" });
     }
 
     //檢查有沒有一樣的slug，在counter增加之前
     if (slug) {
       let findSlug = await Article.findOne({ slug });
       if (findSlug) {
-        return res.status(409).send("Slug already exists");
+        return res.status(409).send({ message: "Slug already exists" });
       }
     }
 
@@ -323,7 +323,9 @@ exports.updateOne = async (req, res) => {
       let findSlug = await Article.findOne({ slug });
       console.log(findSlug.articleId);
       if (findSlug.articleId !== id) {
-        return res.status(409).send("This slug is used in anothor article");
+        return res
+          .status(409)
+          .send({ message: "This slug is used in anothor article" });
       }
     }
 

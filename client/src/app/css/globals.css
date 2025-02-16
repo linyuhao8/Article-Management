@@ -6,3 +6,11 @@
   --main: #3bc9d6;
 }
 
+body {
+  @apply box-border w-full transition-colors duration-500 ease-in-out text-gray-800 bg-[#fff] dark:bg-[#ffffff] dark:text-white;
+}
+
+h1,
+h2 {
+  @apply text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white;
+}

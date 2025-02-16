@@ -8,6 +8,8 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4">
