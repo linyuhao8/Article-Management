@@ -277,7 +277,7 @@ const MenuBar = ({ editor, setEditorContent }) => {
   );
 };
 
-export default ({ initContentJson, setEditorContent, setContentText }) => {
+export default ({ initContentJson, setEditorContent, setText }) => {
   const extensions1 = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
@@ -374,7 +374,7 @@ export default ({ initContentJson, setEditorContent, setContentText }) => {
       const jsonContent = editor.getJSON();
       setEditorContent(jsonContent); // 更新父層狀態
       const textContent = editor.getText();
-      setContentText(textContent);
+      setText(textContent);
     },
   });
 

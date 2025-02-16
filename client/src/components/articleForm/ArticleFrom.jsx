@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/articleForm/Tiptap";
 import CheckEditorContent from "./CheckEditorContent";
 
-const AddPost = () => {
+const ArticleFrom = ({ onSubmit }) => {
   const initContentJson = {
     type: "doc",
     content: [
@@ -163,19 +163,34 @@ const AddPost = () => {
       },
     ],
   };
-  const [title, setTitle] = useState("");
-  const [tags, setTags] = useState(["dsds", "ADSD"]);
+  const initContentText = `Hi there,
+this is a basic example of Tiptap. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists: 
+That’s a bullet list with one …
+… or two list items.
+Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+body {
+    display: none;
+  }
+I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+Wow, that’s amazing. Good work, boy! 👏 
+— Mom`;
+  const [title, setTitle] = useState("*文章標題");
+  const [tags, setTags] = useState(["旅行", "經濟"]);
   const [content, setContent] = useState(initContentJson);
-  const [contentText, setContentText] = useState("");
-  const [slug, setSlug] = useState("");
+  const [text, setText] = useState(initContentText);
+  const [slug, setSlug] = useState("預設網址");
   const [description, setDescription] = useState("這是一篇文章的描述。");
-  const [category, setCategory] = useState("");
-  const [status, setStatus] = useState("Draft");
+  const [category, setCategory] = useState("分類");
+  const [status, setStatus] = useState("draft");
   const [coverImage, setCoverImage] = useState(null);
 
   useEffect(() => {
-    console.log("正在編輯");
+    console.log(content);
   }, [content]);
+
+  useEffect(() => {
+    console.log("text有內容");
+  }, [text]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -183,11 +198,18 @@ const AddPost = () => {
       setCoverImage(URL.createObjectURL(file));
     }
   };
-
+  function cleanTextForDatabase(text) {
+    return text
+      .replace(/\n{2,}/g, "\n") // 移除多餘換行，只留單個
+      .replace(/[.,:!?'’“”…—]/g, "") // 移除標點符號
+      .toLowerCase() // 全部轉小寫，方便搜尋比對
+      .trim(); // 去除前後空格
+  }
   // 處理表單提交
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //將純文字去除空格跟標點符號等處理，利於搜尋
+    const contentText = cleanTextForDatabase(text);
     // 建立文章物件
     const articleData = {
       contentText,
@@ -201,8 +223,7 @@ const AddPost = () => {
     };
 
     // 呼叫父組件傳遞的 onSubmit 函數
-    // onSubmit(articleData);
-    console.log(articleData);
+    onSubmit(articleData);
   };
 
   return (
@@ -228,7 +249,7 @@ const AddPost = () => {
           <input
             type="text"
             className="title-input"
-            placeholder="Title..."
+            placeholder="*Title..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -255,7 +276,7 @@ const AddPost = () => {
         <Tiptap
           initContentJson={initContentJson}
           setEditorContent={setContent}
-          setContentText={setContentText}
+          setText={setText}
         />
 
         {/* Slug */}
@@ -273,6 +294,7 @@ const AddPost = () => {
             onChange={(e) => setSlug(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
+            placeholder="*default url"
           />
         </div>
 
@@ -290,6 +312,7 @@ const AddPost = () => {
             onChange={(e) => setDescription(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             rows="3"
+            placeholder="*文章描述"
           />
         </div>
 
@@ -308,6 +331,7 @@ const AddPost = () => {
             onChange={(e) => setCategory(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
+            placeholder="*分類"
           />
         </div>
 
@@ -353,8 +377,9 @@ const AddPost = () => {
           Publish
         </button>
       </div>
+      <CheckEditorContent contentText={text} content={content} />
     </div>
   );
 };
 
-export default AddPost;
+export default ArticleFrom;
