@@ -1,4 +1,4 @@
-import "../../css/articleForm.css";
+import "../../css/globals.css";
 
 export const metadata = {
   title: "Add Posts",

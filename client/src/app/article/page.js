@@ -2,9 +2,11 @@ import PostList from "@/components/PostList";
 
 const Posts = () => {
   return (
-    <div>
-      <PostList />
-    </div>
+    <>
+      <div>
+        <PostList />
+      </div>
+    </>
   );
 };
 

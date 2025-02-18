@@ -128,7 +128,7 @@ exports.getCategories = async (req, res) => {
 };
 
 //查詢單篇文章 /articles/id/:id
-exports.findSingle = async (req, res) => {
+exports.findSingleId = async (req, res) => {
   try {
     console.log("use findSingle");
     const id = req.params.id;
@@ -145,6 +145,23 @@ exports.findSingle = async (req, res) => {
   }
 };
 
+//查詢單篇文章 /articles/:slug
+exports.findSingleSlug = async (req, res) => {
+  try {
+    console.log("use findSingleSlug");
+    const slug = req.params.slug;
+    let article = await Article.findOne({ slug: slug })
+      .populate("category") // 只填充 category 的 name
+      .populate("tags");
+    if (!article) {
+      return res.status(404).json({ message: "找不到文章" });
+    }
+    res.status(200).json(article);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 //刪除單篇文章 /articles/delete/:id
 exports.deleteOne = async (req, res) => {
   try {

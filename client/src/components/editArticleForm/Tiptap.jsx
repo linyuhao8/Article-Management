@@ -277,7 +277,7 @@ const MenuBar = ({ editor, setEditorContent }) => {
   );
 };
 
-export default ({ initContentJson, setEditorContent, setText }) => {
+const Tiptap = ({ initContentJson, setEditorContent, setText }) => {
   const extensions1 = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
@@ -381,7 +381,9 @@ export default ({ initContentJson, setEditorContent, setText }) => {
   return (
     <div className="Editor">
       <MenuBar editor={editor} setEditorContent={setEditorContent} />
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="edit" />
     </div>
   );
 };
+
+export default Tiptap;

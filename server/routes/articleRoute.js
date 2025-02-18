@@ -186,10 +186,19 @@ router.get(
 //顯示單篇文章GET /article/id/:id
 router.get(
   "/id/:id",
-  // #swagger.summary = 'find single article'
+  // #swagger.summary = 'find single article with articleId'
   /* #swagger.tags = ['Article display'] 
         #swagger.description = '查詢單篇文章，使用 articleId 查詢，第一篇文章為 1，只會有數字' */
-  articleController.findSingle
+  articleController.findSingleId
+);
+
+//顯示單篇文章GET /article/:slug
+router.get(
+  "/:slug",
+  // #swagger.summary = 'find single article with slug'
+  /* #swagger.tags = ['Article display'] 
+        #swagger.description = '查詢單篇文章，使用 slug 查詢' */
+  articleController.findSingleSlug
 );
 
 //修改文章資料PUT /article/edit/:id

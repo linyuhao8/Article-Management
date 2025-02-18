@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Tiptap from "@/components/articleForm/Tiptap";
+import Tiptap from "@/components/editArticleForm/Tiptap";
 import CheckEditorContent from "./CheckEditorContent";
-import Message from "@/components/articleForm/Message";
+import Message from "@/components/editArticleForm/Message";
 
 const ArticleFrom = ({ onSubmit, message, messageStatus }) => {
   const initContentJson = {

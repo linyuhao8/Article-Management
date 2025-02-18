@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ArticleFrom from "@/components/articleForm/ArticleFrom";
+import ArticleFrom from "@/components/editArticleForm/ArticleFrom";
 import axios from "axios";
 
 const AddPost = () => {

@@ -349,11 +349,39 @@
         "tags": [
           "Article display"
         ],
-        "summary": "find single article",
+        "summary": "find single article with articleId",
         "description": "查詢單篇文章，使用 articleId 查詢，第一篇文章為 1，只會有數字",
         "parameters": [
           {
             "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/articles/{slug}": {
+      "get": {
+        "tags": [
+          "Article display"
+        ],
+        "summary": "find single article with slug",
+        "description": "查詢單篇文章，使用 slug 查詢",
+        "parameters": [
+          {
+            "name": "slug",
             "in": "path",
             "required": true,
             "type": "string"
