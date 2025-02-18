@@ -12,7 +12,6 @@ function getPost(type, identifier) {
     type === "slug"
       ? `http://localhost:5007/articles/${identifier}`
       : `http://localhost:5007/articles/id/${identifier}`;
-
   return axios
     .get(url)
     .then((response) => response.data)

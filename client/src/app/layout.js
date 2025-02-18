@@ -2,8 +2,8 @@ import "./css/globals.css";
 import Navbar from "@/components/body/Navbar";
 
 export const metadata = {
-  title: "Create Next App",
-  description: "Gadsdasenerated by create next app",
+  title: "Article management system",
+  description: "Visually CRUD Article",
 };
 
 export default function RootLayout({ children }) {
