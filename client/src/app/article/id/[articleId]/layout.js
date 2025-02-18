@@ -22,6 +22,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ArticlesLayout({ children }) {
+export default async function SingleArticleWithIdLayout({ children }) {
   return <>{children}</>;
 }

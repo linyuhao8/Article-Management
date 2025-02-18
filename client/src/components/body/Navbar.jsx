@@ -27,10 +27,10 @@ const Navbar = () => {
               Home
             </a>
             <a
-              href="/about"
+              href="/article/add"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
-              About
+              Add Article
             </a>
             <a
               href="/services"
