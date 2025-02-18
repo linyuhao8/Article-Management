@@ -156,18 +156,18 @@ router.get(
   articleController.getTags
 );
 
-//搜尋含有tags的article GET /articles/tags/:tag1,:tag2
+//搜尋含有tags的article GET /articles/tags/:tag1,:tag2/:page?limit=5
 router.get(
-  "/tags/:tags",
+  "/tags/:tags/:page",
   // #swagger.summary = '回傳含有tags的articles'
   /* #swagger.tags = ['Article tags'] 
-    #swagger.description = '搜尋含有tags的article' */
+    #swagger.description = ' /articles/tags/:tag1,:tag2/:page?limit=5搜尋含有tags的article' */
   articleController.findByTags
 );
 
-//搜尋含有categories的articles GET /articles/categories/:categories1,:categories1
+//搜尋含有categories的articles GET /articles/categories/:categories1,:categories1/:page?limit=5
 router.get(
-  "/categories/:categories",
+  "/categories/:categories/:page",
   // #swagger.summary = '回傳含有tags的articles'
   /* #swagger.tags = ['Article categories'] 
       #swagger.description = '搜尋含有tags的article' */
@@ -179,7 +179,7 @@ router.get(
   "/pages/:page",
   // #swagger.summary = 'article list'
   /* #swagger.tags = ['Article display'] 
-      #swagger.description = '取得文章列表 // http://localhost:5006/article?page=2' */
+      #swagger.description = '取得文章列表，會從最新開始，page為2，limit為5，代表會回傳2*5篇文章，並以最新往後排序 // http://localhost:5006/article?page=2' */
   articleController.findWithPagination
 );
 

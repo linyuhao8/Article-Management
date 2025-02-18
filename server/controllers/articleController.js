@@ -244,7 +244,14 @@ exports.findByTags = async (req, res) => {
     if (!tagsParam) {
       return res.status(400).json({ message: "Tag is required" });
     }
-
+    let page = parseInt(req.params.page, 10);
+    if (Number.isNaN(page) || page < 1) {
+      page = 1; // 確保 page 至少是 1
+    }
+    let limit = parseInt(req.query.limit, 10) || 10; // 允許前端指定 limit，默認 10
+    if (limit < 1 || limit > 100) {
+      limit = 10; // 限制最大 100，防止過多請求
+    }
     // 如果標籤字串中包含逗號，則拆分並移除前後空白，否則直接包裝成陣列
     let tagNames;
     if (tagsParam.indexOf(",") !== -1) {
@@ -268,9 +275,12 @@ exports.findByTags = async (req, res) => {
     const tagIds = tags.map((tag) => tag._id);
     console.log("tagIds:" + tagIds);
     // 根據找到的 tagIds 查詢文章，使用 $in 表示只要文章的 tags 陣列中包含其中一個 tagId 即符合條件
-    const articles = await Article.find({ tags: { $in: tagIds } }).populate(
-      "tags"
-    );
+    const articles = await Article.find({ tags: { $in: tagIds } })
+      .populate("tags")
+      .limit(limit) //回傳數量限制
+      .skip((page - 1) * limit) // 跳過前面的頁面資料
+      .sort({ updatedAt: -1 }); //最新的文章在前面;
+
     if (articles.length === 0) {
       return res
         .status(404)
@@ -304,6 +314,14 @@ exports.findByCategories = async (req, res) => {
     } else {
       categoriesName = [categoriesParams.trim()];
     }
+    let page = parseInt(req.params.page, 10);
+    if (Number.isNaN(page) || page < 1) {
+      page = 1; // 確保 page 至少是 1
+    }
+    let limit = parseInt(req.query.limit, 10) || 10; // 允許前端指定 limit，默認 10
+    if (limit < 1 || limit > 100) {
+      limit = 10; // 限制最大 100，防止過多請求
+    }
     //尋找有包含params的category name，會忽略大小寫
     const categories = await Category.find({
       name: {
@@ -318,7 +336,12 @@ exports.findByCategories = async (req, res) => {
     //找出有包含category的_id的文章
     let findArticle = await Article.find({
       category: { $in: categoriesIds },
-    }).populate("category");
+    })
+      .populate("category")
+      .limit(limit) //回傳數量限制
+      .skip((page - 1) * limit) // 跳過前面的頁面資料
+      .sort({ updatedAt: -1 }); //最新的文章在前面
+
     //如果沒找到
     if (findArticle.length === 0) {
       return res.status(404).json({ message: "沒有找到包含這些分類的文章" });

@@ -252,18 +252,29 @@
         }
       }
     },
-    "/articles/tags/{tags}": {
+    "/articles/tags/{tags}/{page}": {
       "get": {
         "tags": [
           "Article tags"
         ],
         "summary": "回傳含有tags的articles",
-        "description": "搜尋含有tags的article",
+        "description": " /articles/tags/:tag1,:tag2/:page?limit=5搜尋含有tags的article",
         "parameters": [
           {
             "name": "tags",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -283,7 +294,7 @@
         }
       }
     },
-    "/articles/categories/{categories}": {
+    "/articles/categories/{categories}/{page}": {
       "get": {
         "tags": [
           "Article categories"
@@ -295,6 +306,17 @@
             "name": "categories",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -317,7 +339,7 @@
           "Article display"
         ],
         "summary": "article list",
-        "description": "取得文章列表 // http://localhost:5006/article?page=2",
+        "description": "取得文章列表，會從最新開始，page為2，limit為5，代表會回傳2*5篇文章，並以最新往後排序 // http://localhost:5006/article?page=2",
         "parameters": [
           {
             "name": "page",

@@ -31,7 +31,11 @@ h6 {
 }
 h1,
 h2 {
-  @apply mt-3 mb-2;
+  @apply mt-4 mb-3;
+}
+h3,
+h4 {
+  @apply mt-4 mb-2;
 }
 
 h1 {
