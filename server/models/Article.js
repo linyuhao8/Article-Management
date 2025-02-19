@@ -21,7 +21,7 @@ const ArticleSchema = new Schema(
       type: String,
       default: "這是一篇文章的描述。",
     },
-    category: {
+    categories: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,

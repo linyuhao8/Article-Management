@@ -25,19 +25,25 @@ const Navbar = () => {
               Home
             </a>
             <a
+              href="/article"
+              className="text-gray-800 hover:text-blue-500 px-3 py-2"
+            >
+              All Articles
+            </a>
+            <a
               href="/article/add"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
               Add Article
             </a>
             <a
-              href="/article/category"
+              href="/article/categories"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
               Category
             </a>
             <a
-              href="/article/tag"
+              href="/article/tags"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
               tag

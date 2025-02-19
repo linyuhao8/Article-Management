@@ -13,7 +13,7 @@ async function getPost(slug) {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await getPost(slug);
-
+  console.log(slug);
   return {
     title: post?.title || "文章載入中...",
     description: post?.description || "",

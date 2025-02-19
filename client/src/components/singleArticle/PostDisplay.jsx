@@ -6,34 +6,54 @@ import { FaFolderOpen, FaTags } from "react-icons/fa";
 import Image from "next/image";
 
 // 用於根據 articleId 或 slug 來取得文章資料的函數
-function getPost(type, identifier) {
-  // 根據 identifier 決定是 id 還是 slug
-  const url =
-    type === "slug"
-      ? `http://localhost:5007/articles/${identifier}`
-      : `http://localhost:5007/articles/id/${identifier}`;
-  return axios
-    .get(url)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error fetching post:", error);
-      return null;
-    });
+async function getPost(type, identifier) {
+  try {
+    // 根據 identifier 決定是 id 還是 slug
+    const url =
+      type === "slug"
+        ? `http://localhost:5007/articles/${identifier}`
+        : `http://localhost:5007/articles/id/${identifier}`;
+    let response = await axios.get(url);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    if (error.response && error.response.status === 404) {
+      return { notFound: true }; // 文章不存在
+    }
+    return { error: "無法載入文章，請稍後再試" }; // 其他錯誤
+  }
 }
 
 export default function SingleArticle({ type, identifier }) {
   const [post, setPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   //當取得type和identifier才要求後端的文章api資料
   useEffect(() => {
-    // 處理元件掛載時的資料擷取，不能用async
-    getPost(type, identifier).then((data) => {
-      setPost(data);
-    });
+    const fetchData = async () => {
+      const data = await getPost(type, identifier);
+      if (data.notFound) {
+        setError("文章不存在");
+        setPost(null);
+      } else if (data.error) {
+        setError(data.error);
+        setPost(null);
+      } else {
+        setPost(data);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
   }, [type, identifier]);
 
-  if (!post) {
-    return <div className="text-center py-12">Loading...</div>;
+  if (isLoading) {
+    return <div className="text-center py-12">載入中...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-12 text-red-500 text-3xl">{error}</div>;
   }
 
   return (
@@ -48,17 +68,17 @@ export default function SingleArticle({ type, identifier }) {
             <div className="flex gap-3 mb-2">
               <span>
                 <a
-                  href={`/article/category/${post.category.name}`}
+                  href={`/article/category/${post.categories.name}`}
                   className="flex flex-nowrap border rounded-md px-3 py-1 items-center gap-1"
                 >
                   <FaFolderOpen />
-                  {post.category.name}
+                  {post.categories.name}
                 </a>
               </span>
               {post.tags.map((tag) => (
                 <span key={tag._id}>
                   <a
-                    href={`/article/tags/${tag.name}`}
+                    href={`/article/tag/${tag.name}`}
                     className="flex flex-nowrap border rounded-md px-3 py-1 items-center gap-1"
                   >
                     <FaTags />

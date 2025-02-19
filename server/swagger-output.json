@@ -252,7 +252,7 @@
         }
       }
     },
-    "/articles/tags/{tags}/{page}": {
+    "/articles/tags/{tags}/": {
       "get": {
         "tags": [
           "Article tags"
@@ -268,8 +268,7 @@
           },
           {
             "name": "page",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "type": "string"
           },
           {
@@ -294,7 +293,7 @@
         }
       }
     },
-    "/articles/categories/{categories}/{page}": {
+    "/articles/categories/{categories}/": {
       "get": {
         "tags": [
           "Article categories"
@@ -310,8 +309,7 @@
           },
           {
             "name": "page",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "type": "string"
           },
           {
@@ -329,6 +327,9 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

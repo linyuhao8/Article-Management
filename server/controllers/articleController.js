@@ -133,7 +133,7 @@ exports.findSingleId = async (req, res) => {
     console.log("use findSingle");
     const id = req.params.id;
     let article = await Article.findOne({ articleId: id })
-      .populate("category") // 只填充 category 的 name
+      .populate("categories") // 只填充 category 的 name
       .populate("tags");
     if (!article) {
       return res.status(404).json({ message: "找不到文章" });
@@ -151,7 +151,7 @@ exports.findSingleSlug = async (req, res) => {
     console.log("use findSingleSlug");
     const slug = req.params.slug;
     let article = await Article.findOne({ slug: slug })
-      .populate("category") // 只填充 category 的 name
+      .populate("categories") // 只填充 category 的 name
       .populate("tags");
     if (!article) {
       return res.status(404).json({ message: "找不到文章" });
@@ -196,7 +196,7 @@ exports.findWithPagination = async (req, res) => {
     const totalPages = Math.ceil(totalArticles / limit); // 總頁數
 
     const articles = await Article.find()
-      .populate("category", "name") // 只填充 category 的 name
+      .populate("categories", "name") // 只填充 category 的 name
       .populate("tags", "name") // 只填充 tags 的 name
       .sort({ createdAt: -1 }) // 按照創建時間排序（最新的在前）
       .skip((page - 1) * limit) // 跳過前面的頁面資料
@@ -244,7 +244,7 @@ exports.findByTags = async (req, res) => {
     if (!tagsParam) {
       return res.status(400).json({ message: "Tag is required" });
     }
-    let page = parseInt(req.params.page, 10);
+    let page = parseInt(req.query.page, 10);
     if (Number.isNaN(page) || page < 1) {
       page = 1; // 確保 page 至少是 1
     }
@@ -274,81 +274,116 @@ exports.findByTags = async (req, res) => {
     // 取得所有找到標籤的 _id
     const tagIds = tags.map((tag) => tag._id);
     console.log("tagIds:" + tagIds);
+
     // 根據找到的 tagIds 查詢文章，使用 $in 表示只要文章的 tags 陣列中包含其中一個 tagId 即符合條件
     const articles = await Article.find({ tags: { $in: tagIds } })
       .populate("tags")
       .limit(limit) //回傳數量限制
       .skip((page - 1) * limit) // 跳過前面的頁面資料
       .sort({ updatedAt: -1 }); //最新的文章在前面;
-
+    //如果沒有找到文章
     if (articles.length === 0) {
       return res
         .status(404)
         .json({ message: "No articles found for these tags" });
     }
-
-    res.status(200).json(articles);
+    //所有含有標籤的文章有幾個
+    const totalArticles = await Article.countDocuments({
+      tags: { $in: tagIds },
+    });
+    //計算總頁數
+    const totalPages = Math.ceil(totalArticles / limit);
+    res.status(200).json({
+      currentPage: page,
+      totalArticles: totalArticles,
+      totalPages: totalPages,
+      articles,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-//搜尋含有categories的articles GET /articles/categories/:categories1,:categories1
+//搜尋含有categories的articles GET /articles/categories/:categories1,:categories1?page=1?limit=10
 exports.findByCategories = async (req, res) => {
   try {
     console.log("use findByCategories");
-    //取得網址
+
+    // 取得網址中的 category 參數
     const categoriesParams = req.params.categories;
     if (!categoriesParams) {
       return res.status(400).json({ message: "Tag is required" });
     }
-    //單獨還是多個？
-    //如果有逗點，分割逗點成陣列
+
+    // 處理單個或多個分類名稱
     let categoriesName;
     if (categoriesParams.indexOf(",") !== -1) {
-      //分割逗點，並去除每個category旁邊的空格
+      // 分割逗點，並去除每個 category 旁邊的空格
       categoriesName = categoriesParams
         .split(",")
         .map((category) => category.trim());
     } else {
       categoriesName = [categoriesParams.trim()];
     }
-    let page = parseInt(req.params.page, 10);
+
+    // 確保 page 至少是 1
+    let page = parseInt(req.query.page, 10);
     if (Number.isNaN(page) || page < 1) {
-      page = 1; // 確保 page 至少是 1
+      page = 1;
     }
-    let limit = parseInt(req.query.limit, 10) || 10; // 允許前端指定 limit，默認 10
+
+    // 默認 limit 為 10，並限制最大值為 100
+    let limit = parseInt(req.query.limit, 10) || 10;
     if (limit < 1 || limit > 100) {
-      limit = 10; // 限制最大 100，防止過多請求
+      limit = 10;
     }
-    //尋找有包含params的category name，會忽略大小寫
+
+    // 尋找匹配的 categories
     const categories = await Category.find({
       name: {
         $in: categoriesName.map((category) => new RegExp(category, "i")),
       },
     });
-    //如果沒找到
+
+    // 如果找不到對應的分類，返回錯誤
     if (categories.length === 0) {
       return res.send("沒有找到這些分類");
     }
-    categoriesIds = categories.map((category) => category._id);
-    //找出有包含category的_id的文章
-    let findArticle = await Article.find({
-      category: { $in: categoriesIds },
-    })
-      .populate("category")
-      .limit(limit) //回傳數量限制
-      .skip((page - 1) * limit) // 跳過前面的頁面資料
-      .sort({ updatedAt: -1 }); //最新的文章在前面
 
-    //如果沒找到
+    // 取得所有匹配的 category ids
+    const categoriesIds = categories.map((category) => category._id);
+
+    // 找到符合條件的文章並分頁
+    const findArticle = await Article.find({
+      categories: { $in: categoriesIds },
+    })
+      .populate("categories")
+      .limit(limit) // 設定返回數量限制
+      .skip((page - 1) * limit) // 跳過前面的頁面資料
+      .sort({ updatedAt: -1 }); // 根據更新時間排序
+
+    // 如果找不到任何文章
     if (findArticle.length === 0) {
       return res.status(404).json({ message: "沒有找到包含這些分類的文章" });
     }
-    return res.status(200).send(findArticle);
+
+    // 計算總文章數和總頁數
+    const totalArticles = await Article.countDocuments({
+      categories: { $in: categoriesIds },
+    });
+    const totalPages = Math.ceil(totalArticles / limit);
+
+    // 返回文章資料和分頁信息
+    return res.status(200).json({
+      currentPage: page,
+      totalArticles: totalArticles,
+      totalPages: totalPages,
+      articles: findArticle,
+    });
   } catch (e) {
     console.log(e);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 

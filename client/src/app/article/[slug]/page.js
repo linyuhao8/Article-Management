@@ -1,4 +1,3 @@
-
 import PostDisplay from "@/components/singleArticle/PostDisplay";
 
 const SingleArticleWithSlug = async ({ params }) => {

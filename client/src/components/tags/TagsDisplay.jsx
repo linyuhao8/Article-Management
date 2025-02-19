@@ -13,13 +13,18 @@ async function getTags(type, limit) {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching ${type}`, error);
-    return null;
+    console.error(`找不到${type}`, error);
+    if (error.response && error.response.status === 404) {
+      return { notFound: true };
+    }
+    return { error: "無法載入，請稍後再試" };
   }
 }
 
 export default function TagsDisplay({ type, limit }) {
   const [tags, setTags] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const randomIcons = [
     "💻",
@@ -38,13 +43,30 @@ export default function TagsDisplay({ type, limit }) {
     "📲",
   ];
   useEffect(() => {
-    getTags(type, limit).then((data) => {
-      setTags(data);
-    });
+    const fetchDate = async () => {
+      const data = await getTags(type, limit);
+      if (data.notFound) {
+        setError("文章不存在");
+        setTags(null);
+      } else if (data.error) {
+        setError(data.error);
+        setTags(null);
+      } else {
+        setTags(data);
+      }
+      setIsLoading(false);
+    };
+    fetchDate();
   }, [type, limit]);
 
-  if (!tags) {
-    return <div className="text-center py-12">Loading...</div>;
+  if (isLoading) {
+    return <div className="text-center py-12">載入中...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 text-red-500 text-3xl">{error}</div>
+    );
   }
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -55,7 +77,9 @@ export default function TagsDisplay({ type, limit }) {
         {tags.map((tag) => (
           <div key={tag._id}>
             <a
-              href={`/article/${type}/${tag.name}`}
+              href={`/article/${type === "categories" ? "category" : "tag"}/${
+                tag.name
+              }`}
               className="flex flex-col items-center gap-2 px-0 py-10 bg-white border rounded-full shadow-sm transition-transform transform hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span className="text-2xl">
