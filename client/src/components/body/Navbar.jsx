@@ -8,8 +8,6 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  
-
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4">
@@ -33,16 +31,16 @@ const Navbar = () => {
               Add Article
             </a>
             <a
-              href="/services"
+              href="/article/category"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
-              Services
+              Category
             </a>
             <a
-              href="/contact"
+              href="/article/tag"
               className="text-gray-800 hover:text-blue-500 px-3 py-2"
             >
-              Contact
+              tag
             </a>
           </div>
 
