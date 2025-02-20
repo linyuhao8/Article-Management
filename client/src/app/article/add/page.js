@@ -9,6 +9,7 @@ const AddPost = () => {
   // 當送出會直接 post 到 http://localhost:5007/articles/add
   const addArticle = async (articleData) => {
     try {
+      console.log(articleData);
       const response = await axios.post(
         "http://localhost:5007/articles/add",
         articleData,

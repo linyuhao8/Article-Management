@@ -142,16 +142,14 @@ ol li p {
 }
 /* Tiptap Editor Styles */
 /* single post style */
-.tiptap {
-  @apply border-none p-0;
-}
 
 .tiptap a {
   @apply text-amber-500 decoration-amber-500 underline underline-offset-2 cursor-pointer;
 }
 /* edit post style */
-.tiptap.edit {
-  @apply border rounded-b-lg focus:outline-[var(--main)] min-h-20 pt-4 px-4;
+
+.editForm .ProseMirror {
+  @apply px-4 py-4  border border-x rounded-b-lg focus:outline-[var(--main)] rounded-b-lg;
 }
 
 /* Code and Pre Styles */

@@ -5,6 +5,6 @@ export const metadata = {
   description: "給您最好的文章內容",
 };
 
-export default function Articleslayout({ children }) {
+export default function TagsLayout({ children }) {
   return <>{children}</>;
 }

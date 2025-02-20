@@ -3,14 +3,13 @@ import "../../../css/globals.css";
 
 export default async function ExampleClientComponent({ params }) {
   const { name } = await params;
-  const decodedName = name ? decodeURIComponent(name) : null;
+  const decodedName = decodeURIComponent(name);
+  console.log(decodedName);
   return (
     <div>
-      {/* type, identifier, page, limit */}
       <PostList
-        type={"categories"}
+        type="categories"
         identifier={name}
-        description={`有包含 ${decodedName} 的文章`}
       />
     </div>
   );

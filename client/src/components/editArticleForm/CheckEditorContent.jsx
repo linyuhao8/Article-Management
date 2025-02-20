@@ -10,9 +10,7 @@ const CheckEditorContent = ({ contentText, content }) => {
     }
   }, [content]);
 
-  useEffect(() => {
-    console.log("13 ");
-  }, [contentText]);
+  useEffect(() => {}, [contentText]);
 
   const toggleBtn = () => {
     setToggle((prev) => !prev);

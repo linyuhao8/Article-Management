@@ -9,8 +9,9 @@ const Message = ({ message, messageStatus }) => {
 
       // 只有在 messageStatus 是成功時，才設置定時器讓訊息消失
       if (messageStatus) {
+        // 4秒後隱藏訊息
         const timer = setTimeout(() => {
-          setShowMessage(false); // 4秒後隱藏訊息
+          setShowMessage(false);
         }, 4000);
 
         // 清理定時器

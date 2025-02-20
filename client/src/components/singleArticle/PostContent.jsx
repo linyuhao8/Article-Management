@@ -6,6 +6,7 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 
+//使用Tiptap顯示純文字
 export default function PostContent({ content }) {
   const editor = useEditor({
     extensions: [

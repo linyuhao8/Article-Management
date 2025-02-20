@@ -4,7 +4,13 @@ import Tiptap from "@/components/editArticleForm/Tiptap";
 import CheckEditorContent from "./CheckEditorContent";
 import Message from "@/components/editArticleForm/Message";
 
-const ArticleFrom = ({ onSubmit, message, messageStatus }) => {
+//此為編輯表單，可用於編輯及新增頁面
+// onsubmit是func處理傳送表單，用於修改文章和新增文章
+// message傳送訊息，失敗或成功內容
+// messageStatus訊息的成功或失敗，可根據狀態顯示顏色
+// data是edit文章，載入資料庫的資料，顯示舊資料直接編輯
+const ArticleFrom = ({ onSubmit, message, messageStatus, data }) => {
+  //Add Page的Form預設值，初始的Json檔案，Tiptap會自動顯示
   const initContentJson = {
     type: "doc",
     content: [
@@ -164,6 +170,7 @@ const ArticleFrom = ({ onSubmit, message, messageStatus }) => {
       },
     ],
   };
+  //Add page的初始的純Text，如果沒有更動Content並直接Submit，會直接送出這個
   const initContentText = `Hi there,
 this is a basic example of Tiptap. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists: 
 That’s a bullet list with one …
@@ -175,30 +182,57 @@ body {
 I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
 Wow, that’s amazing. Good work, boy! 👏 
 — Mom`;
+
+  //顯示在eidt form上的所有內容
   const [title, setTitle] = useState("*文章標題");
   const [tags, setTags] = useState(["旅行", "經濟"]);
+  //Json
   const [content, setContent] = useState(initContentJson);
+  //Content的純文字版本，利於搜尋
   const [text, setText] = useState(initContentText);
   const [slug, setSlug] = useState("預設網址");
   const [description, setDescription] = useState("這是一篇文章的描述。");
-  const [category, setCategory] = useState("分類");
+  const [categories, setCategories] = useState("分類");
   const [status, setStatus] = useState("draft");
   const [coverImage, setCoverImage] = useState(null);
 
+  // 如果外部傳入data，那就代表是edit page，需要顯示舊的post data
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setTitle(data.title || "*文章標題");
+      setTags(
+        data.tags.map((tag) => {
+          return tag.name;
+        }) || ["旅行", "經濟"]
+      );
+      setContent(data.content || initContentJson);
+      setText(data.text || initContentText);
+      setSlug(data.slug || "預設網址");
+      setDescription(data.description || "這是一篇文章的描述。");
+      setCategories(data.categories.name || "分類");
+      setStatus(data.status || "draft");
+    }
+  }, [data]);
+
+  //當內容被編輯觸發
   useEffect(() => {
     console.log(content);
   }, [content]);
 
+  //當Text被編輯
   useEffect(() => {
     console.log("text有內容");
   }, [text]);
 
+  //處理上傳圖片的欄位
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setCoverImage(URL.createObjectURL(file));
     }
   };
+
+  //處理Text多餘的空格或符號等，讓database節省空間並且利於搜尋
   function cleanTextForDatabase(text) {
     return text
       .replace(/\n{2,}/g, "\n") // 移除多餘換行，只留單個
@@ -206,23 +240,25 @@ Wow, that’s amazing. Good work, boy! 👏
       .toLowerCase() // 全部轉小寫，方便搜尋比對
       .trim(); // 去除前後空格
   }
-  // 處理表單提交
+
+  // 處理表單提交，儲存目前的article data
+  // data會傳到parent的onsubmit函數處理，onsubmit會傳送給後端APi
   const handleSubmit = (e) => {
     e.preventDefault();
+
     //將純文字去除空格跟標點符號等處理，利於搜尋
     const contentText = cleanTextForDatabase(text);
-    // 建立文章物件
+    // 文章的資料物件
     const articleData = {
-      contentText,
       title,
-      content,
       slug,
-      description,
-      category,
+      categories,
       status,
       tags,
+      description,
+      contentText,
+      content,
     };
-
     // 呼叫父組件傳遞的 onSubmit 函數
     onSubmit(articleData);
   };
@@ -230,7 +266,7 @@ Wow, that’s amazing. Good work, boy! 👏
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-between">
-        <h1 className="">新增文章</h1>
+        <h1 className="">{data ? "編輯文章" : "新增文章"}</h1>
         <div className="flex nowrap gap-2 items-center">
           <p className="text-sky-600">{status}</p>
           <button
@@ -276,7 +312,7 @@ Wow, that’s amazing. Good work, boy! 👏
         {/* Content Editor (Simplified) */}
 
         <Tiptap
-          initContentJson={initContentJson}
+          initContentJson={content}
           setEditorContent={setContent}
           setText={setText}
         />
@@ -321,16 +357,16 @@ Wow, that’s amazing. Good work, boy! 👏
         {/* Category */}
         <div>
           <label
-            htmlFor="category"
+            htmlFor="categories"
             className="block text-sm font-medium text-gray-700"
           >
-            Category
+            Categories
           </label>
           <input
             type="text"
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            id="categories"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
             placeholder="*分類"

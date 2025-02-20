@@ -16,6 +16,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function TagsLayout({ children }) {
+export default function categoryLayout({ children }) {
   return <>{children}</>;
 }

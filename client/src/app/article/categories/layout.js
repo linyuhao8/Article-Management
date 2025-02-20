@@ -3,6 +3,6 @@ export const metadata = {
   description: "分類",
 };
 
-export default function CategoryLayout({ children }) {
+export default function CategoriesLayout({ children }) {
   return <>{children}</>;
 }

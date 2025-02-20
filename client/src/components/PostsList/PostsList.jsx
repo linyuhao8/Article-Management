@@ -6,7 +6,7 @@ import Pagination from "./Pagination";
 //get 文章資料
 async function getPosts(type, identifier, page, limit) {
   try {
-    let response = [];
+    let response;
     // 如果是 `pages`，則不需要 identifier
     if (type === "pages") {
       let url = `http://localhost:5007/articles/pages/${page}`;
@@ -24,7 +24,7 @@ async function getPosts(type, identifier, page, limit) {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(`找不到含有${identifier}的文章`, error);
+    console.error(`找不到含有${encodeURIComponent(identifier)}的文章`, error);
     if (error.response && error.response.status === 404) {
       return { notFound: true };
     }
@@ -33,14 +33,7 @@ async function getPosts(type, identifier, page, limit) {
 }
 
 //可接受參數 type, identifier, page, limit
-export default function PostsList({
-  type,
-  identifier,
-  page,
-  limit,
-  title,
-  description,
-}) {
+export default function PostsList({ type, identifier, page, limit, title }) {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(null);
   const [totalArticles, setTotalArtices] = useState(null);
@@ -56,8 +49,10 @@ export default function PostsList({
       const data = await getPosts(type, identifier, page, limit);
 
       if (data.notFound) {
+        const decodedIdentifier = decodeURIComponent(identifier);
+
         setError(
-          `找不到含有 ${identifier} ${
+          `找不到含有 「${decodedIdentifier}」 ${
             type === "categories" ? "category" : "tag"
           }的文章`
         );
@@ -94,7 +89,7 @@ export default function PostsList({
     <>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <Hero title={title} tagTitle={tagTitle} description={description} />
+          <Hero title={title} tagTitle={tagTitle} identifier={identifier} />
           {!posts ? (
             <div className="flex flex-col items-center mt-10">
               <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>

@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
     const {
       title,
       content,
-      category,
+      categories,
       tags,
       status,
       slug,
@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
     } = req.body;
 
     // 必填欄位檢查
-    if (!title || !content || !category) {
+    if (!title || !content || !categories) {
       return res
         .status(400)
         .json({ message: "Title, content, and category are required" });
@@ -33,10 +33,10 @@ exports.create = async (req, res) => {
     const tagArray = Array.isArray(tags) ? tags : [tags];
 
     // 查找 Category
-    let findCategory = await Category.findOne({ name: category });
-    if (!findCategory) {
-      findCategory = new Category({ name: category });
-      await findCategory.save();
+    let findCategories = await Category.findOne({ name: categories });
+    if (!findCategories) {
+      findCategories = new Category({ name: categories });
+      await findCategories.save();
     }
 
     // 查找 Tags
@@ -56,7 +56,7 @@ exports.create = async (req, res) => {
       contentText,
       title,
       content,
-      category: findCategory._id,
+      categories: findCategories._id,
       tags: findTags,
       status,
       slug,
@@ -387,19 +387,28 @@ exports.findByCategories = async (req, res) => {
   }
 };
 
-// PUT /articles/:id
+// PUT /articles/edit/:id
 exports.updateOne = async (req, res) => {
   try {
     console.log("use updateOne");
     const { id } = req.params; // 取得文章 ID
-    const { title, content, category, slug, description, status, contentText } =
-      req.body; // 從請求取得要更新的資料
+    const {
+      title,
+      content,
+      categories,
+      slug,
+      description,
+      status,
+      contentText,
+    } = req.body; // 從請求取得要更新的資料
 
+    const numericId = Number(id);
+    console.log(typeof numericId, numericId);
     // 檢查是否有別篇文章用同一個slug
     if (slug) {
       let findSlug = await Article.findOne({ slug });
-      console.log(findSlug.articleId);
-      if (findSlug.articleId !== id) {
+      console.log(findSlug);
+      if (findSlug && findSlug.articleId !== numericId) {
         return res
           .status(409)
           .send({ message: "This slug is used in anothor article" });
@@ -407,10 +416,10 @@ exports.updateOne = async (req, res) => {
     }
 
     // 查找輸入的Category是否有存在，如果沒有就先創建
-    let findCategory = await Category.findOne({ name: category });
-    if (!findCategory) {
-      findCategory = new Category({ name: category });
-      await findCategory.save();
+    let findCategories = await Category.findOne({ name: categories });
+    if (!findCategories) {
+      findCategories = new Category({ name: categories });
+      await findCategories.save();
     }
     // 更新資料
     const updatedArticle = await Article.findOneAndUpdate(
@@ -419,8 +428,8 @@ exports.updateOne = async (req, res) => {
         $set: {
           ...(contentText && { content }),
           ...(title && { title }), // 更新標題
-          ...(content && { "content.example": content }), // 更新 Tiptap JSON 內容
-          category: findCategory._id,
+          ...(content && { content }), // 更新 Tiptap JSON 內容
+          categories: findCategories._id,
           ...(slug && { slug }), // 更新 slug
           ...(description && { description }), // 更新描述
           ...(status && { status }), // 更新狀態
@@ -429,7 +438,7 @@ exports.updateOne = async (req, res) => {
       },
       { new: true } // 回傳更新後的文章
     )
-      .populate("category") // 只填充 category 的 name
+      .populate("categories")
       .populate("tags");
 
     // 檢查文章是否存在
@@ -443,6 +452,3 @@ exports.updateOne = async (req, res) => {
     res.status(500).json({ message: "伺服器錯誤", error });
   }
 };
-
-// GET /article/category?=
-exports.findCategory = async (req, res) => {};

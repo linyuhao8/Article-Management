@@ -6,7 +6,7 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import {
   FaBold,
@@ -29,7 +29,9 @@ import {
   FaImage,
 } from "react-icons/fa";
 
+//edit page的編輯工具欄
 const MenuBar = ({ editor, setEditorContent }) => {
+  //處理連結
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
@@ -58,6 +60,8 @@ const MenuBar = ({ editor, setEditorContent }) => {
       alert(e.message);
     }
   }, [editor]);
+
+  //處理圖片
   const addImage = useCallback(() => {
     const url = window.prompt("URL");
 
@@ -66,10 +70,13 @@ const MenuBar = ({ editor, setEditorContent }) => {
     }
   }, [editor]);
 
+  //如果tiptap editor沒有載入就不會顯示
   if (!editor) {
     return null;
   }
+
   return (
+    //工具列UI
     <div className="control-group editor-toolbar">
       <div className="button-group">
         <button
@@ -277,7 +284,11 @@ const MenuBar = ({ editor, setEditorContent }) => {
   );
 };
 
+// initContentJson，初始的顯示的內容，由parent決定內容（edit or add）
+// setEditorContent，tiptap更新的值會儲存到parent的Content中（一個空格也會更新），提交表單的時候會傳送到資料庫
+// setText，設定文字內容（有變化就更新），用於傳給資料庫的純文字
 const Tiptap = ({ initContentJson, setEditorContent, setText }) => {
+  //tiptap擴充功能
   const extensions1 = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
@@ -366,9 +377,15 @@ const Tiptap = ({ initContentJson, setEditorContent, setText }) => {
   ];
 
   const editor = useEditor({
+    //tiptap擴充功能
     extensions: extensions1,
+
+    //初始顯示的content
     content: initContentJson,
+
+    //只在瀏覽器載入，編輯器的不要
     immediatelyRender: false,
+
     //內容變化就傳到 parent 組件
     onUpdate: ({ editor }) => {
       const jsonContent = editor.getJSON();
@@ -378,10 +395,19 @@ const Tiptap = ({ initContentJson, setEditorContent, setText }) => {
     },
   });
 
+  //edit page會要求資料庫的舊content，然後更新這邊，就可以編輯舊內容啦
+  useEffect(() => {
+    if (editor && initContentJson) {
+      editor.commands.setContent(initContentJson); // 設定新的內容
+    }
+  }, [initContentJson]);
+
   return (
-    <div className="Editor">
+    <div className="Editor ">
+      {/* 工具欄 */}
       <MenuBar editor={editor} setEditorContent={setEditorContent} />
-      <EditorContent editor={editor} className="edit" />
+      {/* 編輯的區域 */}
+      <EditorContent editor={editor} className="editForm" />
     </div>
   );
 };
