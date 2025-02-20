@@ -8,7 +8,6 @@ async function getPost(identifier) {
     // 根據 identifier 決定是 id 還是 slug
     const url = `http://localhost:5007/articles/id/${identifier}`;
     let response = await axios.get(url);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching post:", error);
@@ -53,7 +52,7 @@ export default function EditPage({ params }) {
     async function fetchData() {
       const { id } = await params;
       let response = await getPost(id);
-      console.log(response);
+      console.log("已從database收到post data");
       setData(response);
     }
     fetchData();

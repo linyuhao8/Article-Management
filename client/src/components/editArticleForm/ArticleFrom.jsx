@@ -185,16 +185,31 @@ Wow, that’s amazing. Good work, boy! 👏
 
   //顯示在eidt form上的所有內容
   const [title, setTitle] = useState("*文章標題");
-  const [tags, setTags] = useState(["旅行", "經濟"]);
+  const [tags, setTags] = useState(["手機"]);
   //Json
   const [content, setContent] = useState(initContentJson);
   //Content的純文字版本，利於搜尋
   const [text, setText] = useState(initContentText);
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState(text);
-  const [categories, setCategories] = useState("分類");
+  const [categories, setCategories] = useState("商業");
   const [status, setStatus] = useState("draft");
   const [coverImage, setCoverImage] = useState(null);
+
+  //處理Text多餘的空格或符號等，讓database節省空間並且利於搜尋
+  function cleanTextForDatabase(inputText) {
+    // 如果 inputText 為 undefined 或 null，則回傳空字串
+    if (!inputText) {
+      return "";
+    }
+    return inputText
+      .trim() // 去除前後空格
+      .replace(/[^\p{L}\d\s\-]/gu, "") // 去除非語言、數字、空白和破折號的字符
+      .replace(/\s+/g, " ") // 替換多個空格為一個空格
+      .replace(/[\r\n]+/g, " ") // 將所有形式的換行符號（\r 和 \n）替換成空格
+      .replace(/(^-|-$)/g, "") // 去除開頭和結尾的破折號
+      .replace(/--+/g, "-"); // 去除多重連字符
+  }
 
   // 如果外部傳入data，那就代表是edit page，需要顯示舊的post data
   useEffect(() => {
@@ -214,11 +229,6 @@ Wow, that’s amazing. Good work, boy! 👏
     }
   }, [data]);
 
-  //當內容被編輯觸發
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
-
   //當Text被編輯，將前30個字放入desciption，自動生成description
   useEffect(() => {
     setDescription(text.length > 30 ? text.slice(0, 80) + "..." : text);
@@ -232,15 +242,6 @@ Wow, that’s amazing. Good work, boy! 👏
     }
   };
 
-  //處理Text多餘的空格或符號等，讓database節省空間並且利於搜尋
-  function cleanTextForDatabase(text) {
-    return text
-      .replace(/\n{2,}/g, "\n") // 移除多餘換行，只留單個
-      .replace(/[.,:!?'’“”…—]/g, "") // 移除標點符號
-      .toLowerCase() // 全部轉小寫，方便搜尋比對
-      .trim(); // 去除前後空格
-  }
-
   // 處理表單提交，儲存目前的article data
   // data會傳到parent的onsubmit函數處理，onsubmit會傳送給後端APi
   const handleSubmit = (e) => {
@@ -248,6 +249,9 @@ Wow, that’s amazing. Good work, boy! 👏
 
     //將純文字去除空格跟標點符號等處理，利於搜尋
     const contentText = cleanTextForDatabase(text);
+
+    const cleanDescription = cleanTextForDatabase(description);
+
     // 文章的資料物件
     const articleData = {
       title,
@@ -255,7 +259,7 @@ Wow, that’s amazing. Good work, boy! 👏
       categories,
       status,
       tags,
-      description,
+      cleanDescription,
       contentText,
       content,
     };

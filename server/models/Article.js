@@ -92,24 +92,6 @@ ArticleSchema.pre("save", async function (next) {
   next();
 });
 
-ArticleSchema.pre("findOneAndUpdate", async function (next) {
-  const update = this.getUpdate();
-  const title = update.title;
-
-  if (title && (!update.slug || update.slug.trim() === "")) {
-    // 根據 title 生成 slug
-    update.slug = title
-      .trim() // 去除前後空白
-      .replace(/\s+/g, "-") // 把所有空白轉換成 "-"
-      .replace(/[^\p{L}0-9\-]/gu, "") // 允許所有語言的文字（\p{L}）+ 數字 + "-"
-      .replace(/--+/g, "-"); // 避免 "--" 變成連續的 "-"
-
-    console.log("title:", title, "slug", update.slug);
-  }
-
-  next();
-});
-
 // 建立模型
 const Article = mongoose.model("Article", ArticleSchema);
 
