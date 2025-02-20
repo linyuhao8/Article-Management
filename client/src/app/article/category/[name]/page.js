@@ -10,6 +10,7 @@ export default async function ExampleClientComponent({ params }) {
       <PostList
         type="category"
         identifier={name}
+        description={`有包含 ${decodedName} 的文章`}
       />
     </div>
   );

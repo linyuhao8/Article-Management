@@ -39,48 +39,71 @@ async function getPosts(type, identifier, page, limit) {
   }
 }
 
-//可接受參數 type, identifier, page, limit
-export default function PostsList({ type, identifier, page, limit, title }) {
+// 可接受參數 type, identifier, page, limit，由parent傳入
+// type：category,tag
+// identifier：名稱例如旅行，經濟
+// page：nubmer，default:1
+// limit：number，default:10，1-100
+export default function PostsList({
+  type,
+  identifier,
+  page,
+  limit,
+  title,
+  description,
+}) {
+  //Api回傳後的文章內容
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(null);
+  //APi回傳目前的頁數
+  const [currentPage, setCurrentPage] = useState(page);
+  //總共的文章數
   const [totalArticles, setTotalArtices] = useState(null);
+  //總共頁數預設為10篇一頁
   const [totalPages, setTotalPages] = useState(null);
+  //標籤標題
   const [tagTitle, setTagTitle] = useState(null);
+  //載入
   const [isLoading, setIsLoading] = useState(true);
+  //錯誤
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const decodedtitle = identifier ? decodeURIComponent(identifier) : null;
-    const fetchData = async () => {
-      console.log(type, identifier, page, limit);
-      const data = await getPosts(type, identifier, page, limit);
-
-      if (data.notFound) {
-        const decodedIdentifier = decodeURIComponent(identifier);
-
-        setError(
-          `找不到含有 「${decodedIdentifier}」 ${
-            type === "categories" ? "category" : "tag"
-          }的文章`
-        );
-        setPosts(null);
-      } else if (data.error) {
-        setError(data.error);
-        setPosts(null);
-      } else {
-        setPosts(data.articles);
-        setCurrentPage(data.currentPage);
-        setTotalArtices(data.totalArticles);
-        setTotalPages(data.totalPages);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-    setTagTitle(decodedtitle);
-  }, [type, identifier, page, limit]);
+  //要求資料
+  //currentPage 初始為 parent得page頁數
+  //當pagination點擊，currentPage會被更新，觸發useEffect，然後根據currrentPage fetchData
+  const fetchData = async (currentPage) => {
+    const data = await getPosts(type, identifier, currentPage, limit);
+    //找不到文章
+    if (data.notFound) {
+      setError(
+        `找不到含有 「${decodedtitle}」 ${
+          type === "categories" ? "category" : "tag"
+        }的文章`
+      );
+      setPosts(null);
+    } else if (data.error) {
+      setError(data.error);
+      setPosts(null);
+    } else {
+      //設定前端顯示資料
+      setPosts(data.articles);
+      setTotalArtices(data.totalArticles);
+      setTotalPages(data.totalPages);
+      setCurrentPage(data.currentPage);
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    console.log(1, posts);
+    //根據目前頁面去請求API
+    fetchData(currentPage);
+
+    //tag article page的標題
+    setTagTitle(decodeURIComponent(identifier));
+  }, [type, identifier, currentPage, limit]);
+
+  //監聽文章資料，等到API前端取得資料將會console.log
+  useEffect(() => {
+    console.log(posts);
   }, [posts]);
 
   if (isLoading) {
@@ -96,7 +119,16 @@ export default function PostsList({ type, identifier, page, limit, title }) {
     <>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <Hero title={title} tagTitle={tagTitle} identifier={identifier} />
+          <Hero
+            //首頁和article page用title
+            //tag和category用tagTitle
+            //有title就用title，如果沒有就是tagTitle
+            title={title}
+            tagTitle={tagTitle}
+            identifier={identifier}
+            //說明
+            description={description}
+          />
           {!posts ? (
             <div className="flex flex-col items-center mt-10">
               <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -162,7 +194,7 @@ export default function PostsList({ type, identifier, page, limit, title }) {
                   </article>
                 ))}
               </div>
-              <div>
+              <div className="mt-10">
                 <Pagination
                   onPageChange={setCurrentPage}
                   currentPage={currentPage}
