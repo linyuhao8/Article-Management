@@ -52,9 +52,9 @@ export default function EditPage({ params }) {
   useEffect(() => {
     async function fetchData() {
       const { id } = await params;
-      let data = await getPost(id);
-      console.log(data);
-      setData(data);
+      let response = await getPost(id);
+      console.log(response);
+      setData(response);
     }
     fetchData();
   }, []);

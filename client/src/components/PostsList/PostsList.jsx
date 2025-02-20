@@ -3,17 +3,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Hero from "./Hero";
 import Pagination from "./Pagination";
+
 //get 文章資料
 async function getPosts(type, identifier, page, limit) {
   try {
     let response;
-    // 如果是 `pages`，則不需要 identifier
+    // 兩種API請求方式
+    // 全部文章顯示，根據頁數，預設10頁，可加上限制，1-100
+    // 可輸入page 和 limit
     if (type === "pages") {
       let url = `http://localhost:5007/articles/pages/${page}`;
       response = await axios.get(url, {
         params: { limit }, // 使用 params 傳遞 limit 參數
       });
       console.log(url);
+      //
+      //根據標籤或分類顯示文章
+      //可輸入 type,identifier,page,limit
+      //type分為category或tag
     } else {
       let url = `http://localhost:5007/articles/${type}/${identifier}/`;
       response = await axios.get(url, {

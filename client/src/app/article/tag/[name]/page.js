@@ -8,7 +8,7 @@ export default async function ExampleClientComponent({ params }) {
     <div>
       {/* type, identifier, page, limit */}
       <PostList
-        type={"tags"}
+        type={"tag"}
         identifier={name}
         description={`有包含 ${decodedName} 的文章`}
       />

@@ -158,7 +158,7 @@ router.get(
 
 //搜尋含有tags的article GET /articles/tags/:tag1,:tag2/:page?limit=5
 router.get(
-  "/tags/:tags/",
+  "/tag/:tag/",
   // #swagger.summary = '回傳含有tags的articles'
   /* #swagger.tags = ['Article tags'] 
     #swagger.description = '搜尋含有tags的文章，可要求多個tags，可選擇page和limit，預設為10篇文章，/articles/tags/:tag1,:tag2/:page?limit=5' */
@@ -167,7 +167,7 @@ router.get(
 
 //搜尋含有categories的articles GET /articles/categories/:categories1,:categories1/:page?limit=5
 router.get(
-  "/categories/:categories/",
+  "/category/:category/",
   // #swagger.summary = '回傳含有tags的articles'
   /* #swagger.tags = ['Article categories'] 
       #swagger.description = '搜尋含有tags的文章，可要求多個tags，可選擇page和limit，預設為10篇文章，搜尋含有tags的article /articles/categories/:categories1,:categories1/:page?limit=5' */

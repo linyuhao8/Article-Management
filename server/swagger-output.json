@@ -252,7 +252,7 @@
         }
       }
     },
-    "/articles/tags/{tags}/": {
+    "/articles/tag/{tag}/": {
       "get": {
         "tags": [
           "Article tags"
@@ -261,7 +261,7 @@
         "description": "搜尋含有tags的文章，可要求多個tags，可選擇page和limit，預設為10篇文章，/articles/tags/:tag1,:tag2/:page?limit=5",
         "parameters": [
           {
-            "name": "tags",
+            "name": "tag",
             "in": "path",
             "required": true,
             "type": "string"
@@ -293,7 +293,7 @@
         }
       }
     },
-    "/articles/categories/{categories}/": {
+    "/articles/category/{category}/": {
       "get": {
         "tags": [
           "Article categories"
@@ -302,7 +302,7 @@
         "description": "搜尋含有tags的文章，可要求多個tags，可選擇page和limit，預設為10篇文章，搜尋含有tags的article /articles/categories/:categories1,:categories1/:page?limit=5",
         "parameters": [
           {
-            "name": "categories",
+            "name": "category",
             "in": "path",
             "required": true,
             "type": "string"

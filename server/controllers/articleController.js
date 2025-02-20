@@ -240,7 +240,7 @@ exports.findByTags = async (req, res) => {
   try {
     console.log("use findByTags");
     // 從查詢參數中取得標籤資訊，例如 ?tags=tag1,tag2 或 ?tags=tag1
-    let tagsParam = req.params.tags;
+    let tagsParam = req.params.tag;
     if (!tagsParam) {
       return res.status(400).json({ message: "Tag is required" });
     }
@@ -311,7 +311,8 @@ exports.findByCategories = async (req, res) => {
     console.log("use findByCategories");
 
     // 取得網址中的 category 參數
-    const categoriesParams = req.params.categories;
+    const categoriesParams = req.params.category;
+    console.log(categoriesParams);
     if (!categoriesParams) {
       return res.status(400).json({ message: "Tag is required" });
     }

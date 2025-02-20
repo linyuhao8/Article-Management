@@ -8,7 +8,7 @@ export default async function ExampleClientComponent({ params }) {
   return (
     <div>
       <PostList
-        type="categories"
+        type="category"
         identifier={name}
       />
     </div>
