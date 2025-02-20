@@ -75,7 +75,7 @@ export default function PostsList({
     //找不到文章
     if (data.notFound) {
       setError(
-        `找不到含有 「${decodedtitle}」 ${
+        `找不到含有 「${decodeURIComponent(identifier)}」 ${
           type === "categories" ? "category" : "tag"
         }的文章`
       );

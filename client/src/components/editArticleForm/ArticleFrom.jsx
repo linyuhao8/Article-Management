@@ -190,8 +190,8 @@ Wow, that’s amazing. Good work, boy! 👏
   const [content, setContent] = useState(initContentJson);
   //Content的純文字版本，利於搜尋
   const [text, setText] = useState(initContentText);
-  const [slug, setSlug] = useState("預設網址");
-  const [description, setDescription] = useState("這是一篇文章的描述。");
+  const [slug, setSlug] = useState("");
+  const [description, setDescription] = useState(text);
   const [categories, setCategories] = useState("分類");
   const [status, setStatus] = useState("draft");
   const [coverImage, setCoverImage] = useState(null);
@@ -219,9 +219,9 @@ Wow, that’s amazing. Good work, boy! 👏
     console.log(content);
   }, [content]);
 
-  //當Text被編輯
+  //當Text被編輯，將前30個字放入desciption，自動生成description
   useEffect(() => {
-    console.log("text有內容");
+    setDescription(text.length > 30 ? text.slice(0, 80) + "..." : text);
   }, [text]);
 
   //處理上傳圖片的欄位
@@ -323,7 +323,7 @@ Wow, that’s amazing. Good work, boy! 👏
             htmlFor="slug"
             className="block text-sm font-medium text-gray-700"
           >
-            Slug
+            Slug(如不填寫會自動根據title產生)
           </label>
           <input
             type="text"
@@ -332,7 +332,7 @@ Wow, that’s amazing. Good work, boy! 👏
             onChange={(e) => setSlug(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             required
-            placeholder="*default url"
+            placeholder="url"
           />
         </div>
 
@@ -342,7 +342,7 @@ Wow, that’s amazing. Good work, boy! 👏
             htmlFor="description"
             className="block text-sm font-medium text-gray-700"
           >
-            Description
+            *Description
           </label>
           <textarea
             id="description"
@@ -360,7 +360,7 @@ Wow, that’s amazing. Good work, boy! 👏
             htmlFor="categories"
             className="block text-sm font-medium text-gray-700"
           >
-            Categories
+            Categories(只能填寫一個)
           </label>
           <input
             type="text"
@@ -399,7 +399,7 @@ Wow, that’s amazing. Good work, boy! 👏
             htmlFor="tags"
             className="block text-sm font-medium text-gray-700"
           >
-            Tags
+            Tags(可填寫多個，用英文字母的逗號分隔 ,)
           </label>
           <input
             type="text"
