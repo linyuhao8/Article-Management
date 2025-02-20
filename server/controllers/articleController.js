@@ -24,6 +24,14 @@ exports.create = async (req, res) => {
 
     //檢查有沒有一樣的slug，在counter增加之前
     if (slug) {
+      // 去除多餘空格、轉換為小寫並清理特殊字符
+      slug = slug
+        .trim() // 去除前後空格
+        .replace(/\s+/g, "-") // 替換空格為破折號
+        .replace(/[^\p{L}0-9\-]/gu, "") // 去除特殊字符，只保留字母、數字和破折號
+        .replace(/--+/g, "-"); // 避免 "--" 變成連續的破折號
+
+      // 檢查 slug 是否已經存在
       let findSlug = await Article.findOne({ slug });
       if (findSlug) {
         return res.status(409).send({ message: "Slug already exists" });
@@ -407,6 +415,11 @@ exports.updateOne = async (req, res) => {
     console.log(typeof numericId, numericId);
     // 檢查是否有別篇文章用同一個slug
     if (slug) {
+      slug = slug
+        .trim() // 去除前後空格
+        .replace(/\s+/g, "-") // 替換空格為破折號
+        .replace(/[^\p{L}0-9\-]/gu, "") // 去除特殊字符，只保留字母、數字和破折號
+        .replace(/--+/g, "-"); // 避免 "--" 變成連續的破折號
       let findSlug = await Article.findOne({ slug });
       console.log(findSlug);
       if (findSlug && findSlug.articleId !== numericId) {
