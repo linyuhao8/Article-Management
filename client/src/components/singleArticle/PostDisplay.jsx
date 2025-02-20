@@ -36,6 +36,23 @@ async function getPost(type, identifier) {
   }
 }
 
+// 刪除文章
+const handleDelete = async (articleId) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:5007/articles/delete/${articleId}`
+    );
+    // 如果刪除成功
+    if (response.status === 200) {
+      // 通常會跳轉到文章列表頁
+      alert("刪除成功");
+      window.location.href = "/"; // 假設刪除後跳轉回文章列表
+    }
+  } catch (error) {
+    alert("刪除失敗");
+  }
+};
+
 /**
  * 單篇文章顯示組件
  * @param {Object} props
@@ -161,9 +178,17 @@ export default function SingleArticle({ type, identifier }) {
                   })}
                 </time>
               </p>
-              <span className="border rounded-md px-3 py-1 border-gray-300">
-                <a href={`/article/edit/${post.articleId}`}>編輯文章</a>
-              </span>
+              <div className="flex justify-end items-center gap-3">
+                <span className="border rounded-md px-3 py-1 border-gray-300 text-[#005fcc]">
+                  <a href={`/article/edit/${post.articleId}`}>編輯</a>
+                </span>
+                <button
+                  onClick={() => handleDelete(post.articleId)}
+                  className="border rounded-md px-3 py-1 border-gray-300 text-red-500"
+                >
+                  刪除
+                </button>
+              </div>
             </div>
           </header>
 

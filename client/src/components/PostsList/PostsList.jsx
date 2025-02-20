@@ -117,7 +117,7 @@ export default function PostsList({
   }
   return (
     <>
-      <div className="bg-white py-24 sm:py-32">
+      <div className="bg-white pt-24 pb-10">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <Hero
             //首頁和article page用title
@@ -136,7 +136,7 @@ export default function PostsList({
             </div>
           ) : (
             <>
-              <div className="mx-auto mt-6 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3 sm:grid-cols-2">
+              <div className="mx-auto mt-3 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3 sm:grid-cols-2">
                 {posts.map((post) => (
                   <article
                     key={post.articleId} // 確保 key 唯一
