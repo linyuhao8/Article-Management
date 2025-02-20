@@ -78,13 +78,16 @@ ArticleSchema.pre("save", async function (next) {
       return next(err);
     }
   }
-  // 根據 title 生成 slug
+
+  // 根據 title 生成 slusg
   if (!this.slug || this.slug.trim() === "") {
     this.slug = this.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "") // 去除前後的破折號
-      .replace(/--+/g, "-"); // 去除多重連字符
+      .trim() // 去除前後空白
+      .replace(/\s+/g, "-") // 把所有空白轉換成 "-"
+      .replace(/[^\p{L}0-9\-]/gu, "") // 允許所有語言的文字（\p{L}）+ 數字 + "-"
+      .replace(/--+/g, "-"); // 避免 "--" 變成連續的 "-"
+
+    console.log("title:", this.title, "slug", this.slug);
   }
   next();
 });
