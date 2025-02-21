@@ -1,10 +1,20 @@
 const { Article, Tag, Category, Counter } = require("../models/Article");
-
+const { articleSchema } = require("../validation/articleValidation");
 // 新增文章方法 /articles/add
 exports.create = async (req, res) => {
   try {
     console.log("use create");
-    const {
+    // 使用 Joi 驗證請求資料
+    const { error, value } = articleSchema.validate(req.body, {
+      abortEarly: false,
+    });
+    if (error) {
+      return res.status(400).json({
+        errors: error.details.map((err) => err.message),
+      });
+    }
+
+    let {
       title,
       content,
       categories,
@@ -13,14 +23,7 @@ exports.create = async (req, res) => {
       slug,
       description,
       contentText,
-    } = req.body;
-
-    // 必填欄位檢查
-    if (!title || !content || !categories || tags) {
-      return res
-        .status(400)
-        .json({ message: "Title, content, tag ,and category are required" });
-    }
+    } = value;
 
     //檢查有沒有一樣的slug，在counter增加之前
     if (slug) {
@@ -401,6 +404,14 @@ exports.updateOne = async (req, res) => {
   try {
     console.log("use updateOne");
     const { id } = req.params; // 取得文章 ID
+    const { error, value } = articleSchema.validate(req.body, {
+      abortEarly: false,
+    });
+    if (error) {
+      return res.status(400).json({
+        errors: error.details.map((err) => err.message),
+      });
+    }
     let {
       title,
       content,
@@ -410,7 +421,7 @@ exports.updateOne = async (req, res) => {
       status,
       contentText,
       tags,
-    } = req.body; // 從請求取得要更新的資料
+    } = value; // 從請求取得要更新的資料
 
     // 必填欄位檢查
     if (!title || !content || !categories || !tags) {
@@ -418,6 +429,7 @@ exports.updateOne = async (req, res) => {
         .status(400)
         .json({ message: "Title, content, tag ,and category are required" });
     }
+
     const numericId = Number(id);
     console.log(typeof numericId, numericId);
     // 檢查是否有別篇文章用同一個slug

@@ -248,10 +248,8 @@ Wow, that’s amazing. Good work, boy! 👏
     e.preventDefault();
 
     //將純文字去除空格跟標點符號等處理，利於搜尋
-    const contentText = cleanTextForDatabase(text);
-
-    const cleanDescription = cleanTextForDatabase(description);
-
+    const cleanedContentText = cleanTextForDatabase(text);
+    const cleanedDescription = cleanTextForDatabase(description);
     // 文章的資料物件
     const articleData = {
       title,
@@ -259,11 +257,12 @@ Wow, that’s amazing. Good work, boy! 👏
       categories,
       status,
       tags,
-      cleanDescription,
-      contentText,
+      description: cleanedDescription,
+      contentText: cleanedContentText,
       content,
     };
     // 呼叫父組件傳遞的 onSubmit 函數
+    console.log(articleData);
     onSubmit(articleData);
   };
 

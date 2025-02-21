@@ -23,9 +23,11 @@ const AddPost = () => {
     } catch (error) {
       setMessageStatus(false);
       const errorMessage =
-        error.response?.data?.message || "Something went wrong";
+        error.response?.data?.errors?.map((err) => err).join(", ") ||
+        error.response?.data?.message ||
+        "Something went wrong";
       setMessage(errorMessage);
-      console.error("Error adding article:", error);
+      console.error("Error adding article:", error.response.data.errors);
     }
   };
   return (
