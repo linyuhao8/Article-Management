@@ -1,0 +1,35 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5007:5007"
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+      - MONGO_DOCKER_URI=${MONGO_DOCKER_URI}
+      - MONGO_ATLAS_URI=${MONGO_ATLAS_URI}
+      - ENV_TEST=${ENV_TEST}
+  db:
+    volumes:
+      - post_db:/data/db
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+volumes:
+  post_db:

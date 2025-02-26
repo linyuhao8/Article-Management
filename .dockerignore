@@ -1,0 +1,24 @@
+# 忽略 Node.js 和 npm 相關的資料夾
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# 忽略本地開發環境中的資料夾和檔案
+.idea
+.vscode
+.DS_Store
+*.log
+
+# 忽略 build 或 dist 資料夾
+build
+dist
+
+# 忽略環境設定檔案（如果你不想將 `.env` 文件包含在 Docker 映像檔中）
+.env
+.env.sample
+
+# 忽略 Dockerfile 和其他配置文件（如果需要的話）
+Dockerfile*
+docker-compose.yml
+

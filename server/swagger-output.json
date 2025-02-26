@@ -462,43 +462,6 @@
                   "type": "string",
                   "example": "證券分析師張陳浩表示，資服股在去年曾出現一波漲勢，主要是由美國的資安大廠股價創高所帶動，加上AI的發展趨勢上，相關的資安問題更加重要，DeepSeek所帶來的想像題材將比先前的AI發展所帶動的資安商機更多"
                 },
-                "content": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "example": "doc"
-                    },
-                    "content": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string",
-                            "example": "paragraph"
-                          },
-                          "content": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "example": "text"
-                                },
-                                "text": {
-                                  "type": "string",
-                                  "example": "據《彭博社》報導，Humane 團隊，包括創辦人 Imran Chaudhri 和 Bethany Bongiorno，將加入 HP 並成立一個新部門，負責將 AI 技術整合至 個人電腦、印表機與智慧會議室 產品線。該部門將被命名為 HP IQ，並成為 HP 的 AI 創新實驗室，目標是為 HP 產品與服務建立智慧生態系，以推動未來的工作模式發展。"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
                 "description": {
                   "type": "string",
                   "example": ""
@@ -524,6 +487,52 @@
                 "slug": {
                   "type": "string",
                   "example": "test1"
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "doc"
+                    },
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "heading"
+                          },
+                          "attrs": {
+                            "type": "object",
+                            "properties": {
+                              "level": {
+                                "type": "number",
+                                "example": 2
+                              }
+                            }
+                          },
+                          "content": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "text"
+                                },
+                                "text": {
+                                  "type": "string",
+                                  "example": "Hi there,你好啊"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }

@@ -1,5 +1,6 @@
 const app = require("./app");
 const connectMongo = require("./config/mongoose");
+
 require("dotenv").config();
 const PORT = process.env.PORT;
 connectMongo().then(() => {
