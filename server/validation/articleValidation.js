@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const articleSchema = Joi.object({
-  title: Joi.string().min(3).max(100).required(),
+  title: Joi.string().min(3).max(200).required(),
   content: Joi.object().required(),
   categories: Joi.string().required(),
   tags: Joi.alternatives()

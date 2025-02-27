@@ -24,10 +24,11 @@ export default function EditPage({ params }) {
   const [data, setData] = useState(null);
   // 當送出會直接 put 到 http://localhost:5007/articles/edit/:id
 
+
   const editArticle = async (articleData) => {
     try {
       const { id } = await params;
-      console.log(articleData);
+      console.log("接收到articleData", articleData);
       const response = await axios.put(
         `http://localhost:5007/articles/edit/${id}`,
         articleData,

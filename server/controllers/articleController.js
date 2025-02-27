@@ -423,13 +423,6 @@ exports.updateOne = async (req, res) => {
       tags,
     } = value; // 從請求取得要更新的資料
 
-    // 必填欄位檢查
-    if (!title || !content || !categories || !tags) {
-      return res
-        .status(400)
-        .json({ message: "Title, content, tag ,and category are required" });
-    }
-
     const numericId = Number(id);
     console.log(typeof numericId, numericId);
     // 檢查是否有別篇文章用同一個slug
@@ -454,25 +447,35 @@ exports.updateOne = async (req, res) => {
       findCategories = new Category({ name: categories });
       await findCategories.save();
     }
+
+    // 查找 Tags，沒有就創建
+    const tagArray = Array.isArray(tags) ? tags : [tags];
+    const findTags = await Promise.all(
+      tagArray.map(async (tagName) => {
+        let findTag = await Tag.findOne({ name: tagName });
+        if (!findTag) {
+          findTag = new Tag({ name: tagName });
+          await findTag.save();
+        }
+        return findTag._id; // 返回 Tag 的 _id
+      })
+    );
     // 更新資料
     const updatedArticle = await Article.findOneAndUpdate(
       { articleId: id }, // 查詢條件
       {
         $set: {
-          ...(contentText && { content }),
-          ...(title && { title }), // 更新標題
-          ...(content && { content }), // 更新 Tiptap JSON 內容
-          categories: findCategories._id,
-          ...(slug && { slug }), // 更新 slug
-          ...(description && { description }), // 更新描述
-          ...(status && { status }), // 更新狀態
-          updatedAt: new Date(), // 更新時間
+          ...(title ? { title } : {}), // 更新標題
+          ...(contentText ? { content } : {}), // 更新 Tiptap JSON 內容
+          ...(findCategories ? { categories: findCategories._id } : {}), // 更新分類
+          ...(findTags.length > 0 ? { tags: findTags } : {}), // 更新標籤
+          ...(slug ? { slug } : {}), // 更新 slug
+          ...(description ? { description } : {}), // 更新描述
+          ...(status ? { status } : {}), // 更新狀態
         },
       },
       { new: true } // 回傳更新後的文章
-    )
-      .populate("categories")
-      .populate("tags");
+    );
 
     // 檢查文章是否存在
     if (!updatedArticle) {

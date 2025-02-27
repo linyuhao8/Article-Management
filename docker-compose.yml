@@ -20,6 +20,7 @@ services:
       - PORT=${PORT}
       - MONGO_DOCKER_URI=${MONGO_DOCKER_URI}
       - MONGO_ATLAS_URI=${MONGO_ATLAS_URI}
+      - MONGO_LOCAL_URI=${MONGO_LOCAL_URI}
       - ENV_TEST=${ENV_TEST}
   db:
     volumes:

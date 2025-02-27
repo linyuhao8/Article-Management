@@ -262,7 +262,7 @@ Wow, that’s amazing. Good work, boy! 👏
       content,
     };
     // 呼叫父組件傳遞的 onSubmit 函數
-    console.log(articleData);
+    console.log("這邊必須正確", articleData);
     onSubmit(articleData);
   };
 
