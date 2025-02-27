@@ -22,8 +22,8 @@
 - **數據庫:** MongoDB (本地或 MongoDB Atlas)
 - **測試:** Jest (未來可擴展)
 - **API 文檔:** Swagger (在 `/api-docs` 路徑)
-- **Docker 容器化:** 簡單指令即可啟動完整系統
-- 
+- **Docker 容器化:** 簡單指令即可啟動完整系統和資料庫。
+
 ### Tiptap 編輯器
 Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的擴展能力，可用於構建 Markdown 編輯器、部落格系統、內容管理系統 (CMS) 等。
 本專案使用 Tiptap 作為文章編輯器，並可擴充自訂功能，且能自由切換HTML和JSON和TEXT，我們將JSON格式和TEXT存進資料庫，JSON在下次開啟文章會顯示格式，TEXT可以利於搜尋。
