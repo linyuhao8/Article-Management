@@ -109,7 +109,6 @@ MONGO_ATLAS_URI=mongodb+srv://<hello>:<password>@project1.d1ulg.mongodb.net/post
 `位置：Article-Management/server`
 
 ```bash
-cd server
 npm start
 ```
 
@@ -119,7 +118,6 @@ npm start
 `位置：Article-Management/client`
 
 ```bash
-cd client
 npm run dev
 ```
 
