@@ -168,7 +168,7 @@ MONGO_ATLAS_URI=mongodb+srv://<hello>:<password>@project1.d1ulg.mongodb.net/post
 ```
 #Article-Management/client/.env
 #如果使用Docker啟動才需要使用
-#NEXT_PUBLIC_API_BASE_URL=http://server:5007
+NEXT_PUBLIC_API_BASE_URL=http://server:5007
 ```
 
 ### **2 設定docker compose**
