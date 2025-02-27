@@ -3,6 +3,27 @@
 這是一個 **全端文章管理系統**，前端使用 `Next.js` `Tiptap`，後端使用 `Express.js`，數據庫採用 `MongoDB`。
 
 支援 **文章的新增、刪除、修改**，並提供 **Swagger API 文件** 供開發者參考。
+
+## 圖片
+![homepage](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/homepage.png)
+![singleArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/singleArticle.png)
+![editArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle.png)
+![editArticle2](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle2.png)
+![Api-Docs](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/backend%20api-doce.png)
+![FindByCategory](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/FindByCategory.png)
+![categories](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/categories.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/tags.png)
+
+
+## **技術**
+
+- **前端:** Next.js, React, TailwindCSS,Tiptap
+- **後端:** Node.js, Express.js, Mongoose (MongoDB ODM)
+- **數據庫:** MongoDB (本地或 MongoDB Atlas)
+- **測試:** Jest (未來可擴展)
+- **API 文檔:** Swagger (在 `/api-docs` 路徑)
+- **Docker 容器化:** 簡單指令即可啟動完整系統
+- 
 ### Tiptap 編輯器
 Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的擴展能力，可用於構建 Markdown 編輯器、部落格系統、內容管理系統 (CMS) 等。
 本專案使用 Tiptap 作為文章編輯器，並可擴充自訂功能，且能自由切換HTML和JSON和TEXT，我們將JSON格式和TEXT存進資料庫，JSON在下次開啟文章會顯示格式，TEXT可以利於搜尋。
@@ -31,26 +52,6 @@ Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的
 
 🎨 自訂顏色
 - 支援新增自訂顏色按鈕，例如紫色字體，可以自訂
-
-## 圖片
-![homepage](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/homepage.png)
-![singleArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/singleArticle.png)
-![editArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle.png)
-![editArticle2](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle2.png)
-![Api-Docs](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/backend%20api-doce.png)
-![FindByCategory](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/FindByCategory.png)
-![categories](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/categories.png)
-![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/tags.png)
-
-
-## **技術**
-
-- **前端:** Next.js, React, TailwindCSS
-- **後端:** Node.js, Express.js, Mongoose (MongoDB ODM)
-- **數據庫:** MongoDB (本地或 MongoDB Atlas)
-- **測試:** Jest (未來可擴展)
-- **API 文檔:** Swagger (在 `/api-docs` 路徑)
-- **Docker 容器化:** 簡單指令即可啟動完整系統
 
 
 ## 🚀 本地開發環境啟動
