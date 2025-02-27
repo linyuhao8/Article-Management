@@ -3,7 +3,36 @@
 這是一個 **全端文章管理系統**，前端使用 `Next.js` `Tiptap`，後端使用 `Express.js`，數據庫採用 `MongoDB`。
 
 支援 **文章的新增、刪除、修改**，並提供 **Swagger API 文件** 供開發者參考。
+### Tiptap 編輯器
+Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的擴展能力，可用於構建 Markdown 編輯器、部落格系統、內容管理系統 (CMS) 等。
+本專案使用 Tiptap 作為文章編輯器，並可擴充自訂功能，且能自由切換HTML和JSON和TEXT，我們將JSON格式和TEXT存進資料庫，JSON在下次開啟文章會顯示格式，TEXT可以利於搜尋。
 
+#### 主要功能
+🔹 文字格式化
+- 粗體 (Bold)
+- 斜體 (Italic)
+- 刪除線 (Strike-through)
+- 程式碼 (Code)
+
+📝 段落與標題
+- 段落 (Paragraph)
+- 標題 (Heading 1-6)
+- 分隔線
+
+🔢 清單
+- 無序清單 (Bullet List)
+- 有序清單 (Ordered List)
+
+🖼️ 多媒體與區塊
+- 圖片 (Image)：可插入並調整大小
+- 連結：可插入和移除
+- 區塊引用 (Blockquote)
+- 水平線 (Horizontal Rule)
+
+🎨 自訂顏色
+- 支援新增自訂顏色按鈕，例如紫色字體，可以自訂
+
+## 圖片
 ![homepage](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/homepage.png)
 ![singleArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/singleArticle.png)
 ![editArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle.png)
@@ -14,7 +43,7 @@
 ![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/tags.png)
 
 
-## **技術棧**
+## **技術**
 
 - **前端:** Next.js, React, TailwindCSS
 - **後端:** Node.js, Express.js, Mongoose (MongoDB ODM)
@@ -98,7 +127,7 @@ npm run dev
 前端將運行在 `http://localhost:3000`。
 
 ### **5 創建一篇文章**
-
+您現在可以新增文章，新增後可以使用編輯文章功能，但是現在還沒有新增跳轉成edit文章功能。
 ## 🐳 **使用 Docker 啟動 (推薦)**
 
 如果你不想手動安裝 MongoDB，可以使用 Docker 一鍵啟動整個系統。
