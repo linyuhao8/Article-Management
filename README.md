@@ -272,7 +272,7 @@ services:
 #Article-Management/.env
 #.env 有三種連線方式
 #dockerVolume or localMongo or mongoAtlas
-NODE_ENV=dockerVolume
+NODE_ENV=mongoAtlas
 
 # 遠端Mongodb Atlas
 MONGO_ATLAS_URI=mongodb+srv://<hello>:<password>@project1.d1ulg.mongodb.net/postManagement?retryWrites=true&w=majority
