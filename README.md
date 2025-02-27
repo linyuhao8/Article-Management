@@ -74,8 +74,6 @@ npm install
 先新增.env檔案到server資料夾下。 
 `位置：Article-Management/server/.env`
 ```bash
-#server/.env
-cd server
 touch .env
 ```
 格式請參考.env.sample。
