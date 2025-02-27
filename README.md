@@ -66,7 +66,7 @@ npm install
 `位置：Article-Management/client`
 ```bash
 #進入 client 目錄，安裝前端依賴
-cd ../client
+cd client
 npm install
 ```
 
