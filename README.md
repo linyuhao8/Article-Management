@@ -311,7 +311,7 @@ services:
 
 ```bash
 #bash
-docker-compose --env-file .env -p  Article-Management up -d
+docker-compose --env-file .env -p  article-management up -d
 ```
 
 這將會：
@@ -322,12 +322,10 @@ docker-compose --env-file .env -p  Article-Management up -d
 
 您也可以自行在Docker compose或Dockerfile設定相關參數
 
-### **4 停止與移除容器**
+### **4 查看docker運行image**
 `位置：Article-Management`
-
 ```bash
-#停止
-docker-compose down
+docker ps
 ```
 
 ### 5 編輯檔案後重新建立image
@@ -360,6 +358,13 @@ exit
 `位置：Article-Management`
 ```
 docker-compose logs server
+```
+### **9 停止與移除容器**
+`位置：Article-Management`
+
+```bash
+#停止
+docker-compose down
 ```
 
 ## 📌 **API 端點 (部分)**
