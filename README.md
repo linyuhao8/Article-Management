@@ -153,7 +153,8 @@ NODE_ENV=dockerVolume
 MONGO_DOCKER_URI=mongodb://admin:secret@db:27017/post_db?authSource=admin
 
 # 本地的電腦
-MONGO_LOCAL_URI=mongodb://127.0.0.1:27017/postProject
+# 如果使用docker，那就要連接本地端的資料庫位置
+MONGO_LOCAL_URI=mongodb://host.docker.internal:27017/postProject
 
 # 遠端mongodb
 MONGO_ATLAS_URI=mongodb+srv://<hello>:<password>@project1.d1ulg.mongodb.net/postManagement?retryWrites=true&w=majority
