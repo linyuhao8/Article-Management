@@ -4,6 +4,16 @@
 
 支援 **文章的新增、刪除、修改**，並提供 **Swagger API 文件** 供開發者參考。
 
+![homepage](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/homepage.png)
+![singleArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/singleArticle.png)
+![editArticle](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle.png)
+![editArticle2](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/editArticle2.png)
+![Api-Docs](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/backend%20api-doce.png)
+![FindByCategory](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/FindByCategory.png)
+![categories](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/categories.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/tags.png)
+
+
 ## **技術棧**
 
 - **前端:** Next.js, React, TailwindCSS
