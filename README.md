@@ -55,6 +55,13 @@ Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的
 
 
 ## 🚀 本地開發環境啟動
+## 注意
+windows用戶一定要照做，避免錯誤
+- windows電腦操作一樣，但我的終端機命令都只適合mac或linux，如果您是windows用戶請使用windows的終端機語法。
+- windows的用戶.env檔案要將vscode右下角的CRLF改成LF
+- windows的用戶.env檔案要將vscode右下角的UTF-8通過編碼保存。
+
+  
 ### **1 安裝依賴**
 `位置：Article-Management/server`
 
@@ -127,6 +134,11 @@ npm run dev
 您現在可以新增文章，新增後可以使用編輯文章功能，但是現在還沒有新增跳轉成edit文章功能。
 ## 🐳 **使用 Docker 啟動 (推薦)**
 
+## 注意
+windows用戶一定要照做
+- windows電腦操作一樣，但我的終端機命令都只適合mac或linux，如果您是windows用戶請使用windows的終端機語法。
+- windows的用戶.env檔案要將vscode右下角的CRLF改成LF
+- windows的用戶.env檔案要將vscode右下角的UTF-8通過編碼保存，否則Docker-compose讀取不到。
 如果你不想手動安裝 MongoDB，可以使用 Docker 一鍵啟動整個系統。
 
 ### **1 新增.env檔案**
@@ -137,6 +149,11 @@ npm run dev
 touch .env
 ```
 格式請參考.env.sample。
+- windows的用戶.env檔案要將vscode右下角的CRLF改成LF
+![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows-LF.png)
+- windows的用戶.env檔案要將vscode右下角的UTF-8通過編碼保存，否則Docker-compose讀取不到環境變數，將會無法啟動。
+![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows-utf-8.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows--utf-8.png)
 `位置：Article-Management/.env`
 ```env
 #Article-Management/.env
