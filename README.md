@@ -150,10 +150,10 @@ touch .env
 ```
 格式請參考.env.sample。
 - windows的用戶.env檔案要將vscode右下角的CRLF改成LF
-![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows-LF.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/main/client/public/windows-LF.png)
 - windows的用戶.env檔案要將vscode右下角的UTF-8通過編碼保存，否則Docker-compose讀取不到環境變數，將會無法啟動。
-![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows-utf-8.png)
-![tags](https://github.com/linyuhao8/Article-Management/blob/c13c0997e2a225624c9aff7056abcd87c649bfb4/client/public/windows--utf-8.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/main/client/public/windows-utf-8.png)
+![tags](https://github.com/linyuhao8/Article-Management/blob/main/client/public/windows--utf-8.png)
 `位置：Article-Management/.env`
 ```env
 #Article-Management/.env
