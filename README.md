@@ -55,7 +55,7 @@ Tiptap 是一款基於 ProseMirror 的強大富文本編輯器，提供靈活的
 
 
 ## 🚀 本地開發環境啟動
-## 注意
+### 注意
 windows用戶一定要照做，避免錯誤
 - windows電腦操作一樣，但我的終端機命令都只適合mac或linux，如果您是windows用戶請使用windows的終端機語法。
 - windows的用戶.env檔案要將vscode右下角的CRLF改成LF
@@ -134,7 +134,7 @@ npm run dev
 您現在可以新增文章，新增後可以使用編輯文章功能，但是現在還沒有新增跳轉成edit文章功能。
 ## 🐳 **使用 Docker 啟動 (推薦)**
 
-## 注意
+### 注意
 windows用戶一定要照做
 - windows電腦操作一樣，但我的終端機命令都只適合mac或linux，如果您是windows用戶請使用windows的終端機語法。
 - windows的用戶.env檔案要將vscode右下角的CRLF改成LF
